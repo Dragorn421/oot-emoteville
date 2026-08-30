@@ -2,7 +2,7 @@
 #define MY_MAP_SCENE_POSITIONS_H
 
 #define POS_MY_MAP_SCENE_SPAWN 0, 0, 0
-#define POS_DOOR -73, 1, -289
+#define POS_DOOR -76, 1, -289
 
 #define ROT_DOOR DEG_TO_BINANG(-0.0), DEG_TO_BINANG(0.0), DEG_TO_BINANG(0.0)
 

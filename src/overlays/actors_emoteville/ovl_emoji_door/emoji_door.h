@@ -8,6 +8,8 @@ typedef struct ActorEmojiDoor {
     Actor actor;
     enum DoorOpenAnim openAnim;
     bool playerIsOpening;
+    int openTimer;
+    float openAngle;
 } ActorEmojiDoor;
 
 #endif
