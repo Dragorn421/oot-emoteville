@@ -81,3 +81,17 @@ endseg
 #else
 #include "overlays_gc.inc"
 #endif
+
+beginseg
+    name "ovl_ActorEmojiDoor"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_emoji_door/emoji_door.o"
+endseg
+
+beginseg
+    name "ovl_ActorEmojiRock"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_emoji_rock/emoji_rock.o"
+endseg

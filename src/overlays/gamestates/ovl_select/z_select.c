@@ -79,6 +79,7 @@ void func_80800B08_unknown(MapSelectState* this, s32 arg1) {
 #endif
 
 static MapSelectEntry sMapSelectEntries[] = {
+    { "ENTR_MY_MAP_SCENE_0", MapSelect_LoadGame, ENTR_MY_MAP_SCENE_0 },
     { " 1:SPOT00", MapSelect_LoadGame, ENTR_HYRULE_FIELD_0 },
     { " 2:SPOT01", MapSelect_LoadGame, ENTR_KAKARIKO_VILLAGE_0 },
     { " 3:SPOT02", MapSelect_LoadGame, ENTR_GRAVEYARD_0 },

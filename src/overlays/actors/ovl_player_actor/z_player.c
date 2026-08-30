@@ -14,6 +14,7 @@
 #include "overlays/actors/ovl_En_Fish/z_en_fish.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
+#include "overlays/actors_emoteville/ovl_emoji_door/emoji_door.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #include "libc64/qrand.h"
@@ -5442,19 +5443,17 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
                     Actor_DisableLens(play);
                 }
             } else {
-                // The door actor can be either EnDoor or DoorKiller.
-                DoorActorBase* door = (DoorActorBase*)doorActor;
+                enum DoorOpenAnim openAnim;
                 LinkAnimationHeader* sp5C;
 
-                door->openAnim = (doorDirection < 0.0f)
-                                     ? (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_L : DOOR_OPEN_ANIM_CHILD_L)
-                                     : (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_R : DOOR_OPEN_ANIM_CHILD_R);
+                openAnim = (doorDirection < 0.0f) ? (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_L : DOOR_OPEN_ANIM_CHILD_L)
+                                                  : (LINK_IS_ADULT ? DOOR_OPEN_ANIM_ADULT_R : DOOR_OPEN_ANIM_CHILD_R);
 
-                if (door->openAnim == DOOR_OPEN_ANIM_ADULT_L) {
+                if (openAnim == DOOR_OPEN_ANIM_ADULT_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorA_free, this->modelAnimType);
-                } else if (door->openAnim == DOOR_OPEN_ANIM_CHILD_L) {
+                } else if (openAnim == DOOR_OPEN_ANIM_CHILD_L) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorA, this->modelAnimType);
-                } else if (door->openAnim == DOOR_OPEN_ANIM_ADULT_R) {
+                } else if (openAnim == DOOR_OPEN_ANIM_ADULT_R) {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorB_free, this->modelAnimType);
                 } else {
                     sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_doorB, this->modelAnimType);
@@ -5492,7 +5491,18 @@ s32 Player_ActionHandler_1(Player* this, PlayState* play) {
                     doorDirection = -doorDirection;
                 }
 
-                door->playerIsOpening = true;
+                if (doorActor->id == ACTOR_EMOJI_DOOR) {
+                    ActorEmojiDoor* door = (ActorEmojiDoor*)doorActor;
+
+                    door->openAnim = openAnim;
+                    door->playerIsOpening = true;
+                } else {
+                    // The door actor can be either EnDoor or DoorKiller.
+                    DoorActorBase* door = (DoorActorBase*)doorActor;
+
+                    door->openAnim = openAnim;
+                    door->playerIsOpening = true;
+                }
 
                 // If the door actor is not DoorKiller
                 if (this->doorType != PLAYER_DOORTYPE_FAKE) {

@@ -121,3 +121,4 @@
 /* 0x6C */ DEFINE_SCENE(sasatest_scene, none, SCENE_SASATEST, SDC_DEFAULT, 0, 0)
 /* 0x6D */ DEFINE_SCENE(testroom_scene, none, SCENE_TESTROOM, SDC_DEFAULT, 0, 0)
 #endif
+DEFINE_SCENE(my_map_scene_scene, none, SCENE_MY_MAP_SCENE, SDC_DEFAULT, 0, 0)

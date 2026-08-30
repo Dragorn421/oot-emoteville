@@ -5,3 +5,5 @@
 #else
 #include "scenes_gc_ique.inc"
 #endif
+
+#include "assets/scenes/emoteville/map/spec.inc"

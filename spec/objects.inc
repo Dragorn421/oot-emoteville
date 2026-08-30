@@ -2,6 +2,7 @@ beginseg
     name "gameplay_keep"
     compress
     romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/emoteville/square_textured_64x64.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/link_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_pause_joint_tables.o"
@@ -3229,5 +3230,21 @@ beginseg
     compress
     romalign 0x1000
     include "$(BUILD_DIR)/assets/objects/object_zl4/object_zl4.o"
+    number 6
+endseg
+
+beginseg
+    name "object_emoji_door"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_emoji_door/object_emoji_door.o"
+    number 6
+endseg
+
+beginseg
+    name "object_emoji_rock"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_emoji_rock/object_emoji_rock.o"
     number 6
 endseg

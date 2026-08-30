@@ -1273,3 +1273,12 @@ $(BUILD_DIR)/assets/audio/audiobank_padding.o:
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
+
+$(BUILD_DIR)/src/overlays/actors_emoteville/%.o: CFLAGS += -Wall -Wextra -Werror -Wno-unused-parameter
+
+BLENDER := /home/dragorn421/blender_collection/blender-4.2.23-linux-x64/blender
+
+assets/scenes/emoteville/map/glue/glue_scene.c assets/scenes/emoteville/map/glue/glue_room_0.c &: assets_src/scene.blend assets/scenes/emoteville/map/catalog.toml
+	$(BLENDER) $< --command dragex oot assets/scenes/emoteville/map/catalog.toml
+	touch assets/scenes/emoteville/map/glue/glue_scene.c
+	touch assets/scenes/emoteville/map/glue/glue_room_0.c

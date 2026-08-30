@@ -123,6 +123,9 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 
 #endif
 
+#define OPEN_DISPS_(gfxCtx) OPEN_DISPS(gfxCtx, __FILE__, __LINE__)
+#define CLOSE_DISPS_(gfxCtx) CLOSE_DISPS(gfxCtx, __FILE__, __LINE__)
+
 void Graph_ThreadEntry(void*);
 
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
