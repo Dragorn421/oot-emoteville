@@ -35,7 +35,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SYSTEM_ARENA_MALLOC(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        func_80106860(view, 0, sizeof(View)); // memset
+        memset(view, 0, sizeof(View)); // memset
         View_Init(view, gfxCtx);
     }
 

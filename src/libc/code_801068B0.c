@@ -1,7 +1,7 @@
 #include "string.h"
 
 // memmove used in __osMalloc.c
-void* func_801068B0(void* dst, void* src, size_t size) {
+void* memmove(void* dst, const void* src, size_t size) {
     char* spC = dst;
     char* sp8 = src;
 

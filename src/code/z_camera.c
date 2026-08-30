@@ -7478,7 +7478,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
     s16 curUID;
     s16 j;
 
-    func_80106860(camera, 0, sizeof(*camera));
+    memset(camera, 0, sizeof(*camera));
     if (sInitRegs) {
         s32 i;
 
