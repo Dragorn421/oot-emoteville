@@ -3,6 +3,7 @@
  */
 #include "ultra64.h"
 #include "audio.h"
+#include "alignment.h"
 
 /**
  * original name: Nas_smzSetParam
@@ -511,10 +512,12 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
             attrs->filter = channel->filter;
 
             if (attrs->filter != NULL) {
+                s16* buf = (s16*)K0_TO_K1(ALIGN16((uintptr_t)attrs->filterBuf));
+
                 for (i = 0; i < 8; i++) {
-                    attrs->filterBuf[i] = attrs->filter[i];
+                    buf[i] = attrs->filter[i];
                 }
-                attrs->filter = attrs->filterBuf;
+                attrs->filter = buf;
             }
 
             attrs->combFilterGain = channel->combFilterGain;

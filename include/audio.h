@@ -420,7 +420,7 @@ typedef struct NoteAttributes {
     /* 0x08 */ f32 freqScale;
     /* 0x0C */ f32 velocity;
     /* 0x10 */ s16* filter;
-    /* 0x14 */ s16 filterBuf[8];
+    /* 0x14 */ char filterBuf[32]; // must be able to hold a s16[8], aligned to a data cache line
 } NoteAttributes; // size = 0x24
 
 // Also known as a SubTrack, according to sm64 debug strings.
