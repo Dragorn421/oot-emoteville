@@ -170,6 +170,13 @@ def list_files_to_format():
         if assets_text_f in files:
             files.remove(assets_text_f)
 
+    for exported_f in glob.glob("assets/scenes/**/exported/*.c", recursive=True):
+        if exported_f in files:
+            files.remove(exported_f)
+    for glue_f in glob.glob("assets/scenes/**/glue/*.c", recursive=True):
+        if glue_f in files:
+            files.remove(glue_f)
+
     return files, extra_files
 
 
