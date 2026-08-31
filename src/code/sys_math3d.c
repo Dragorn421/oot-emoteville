@@ -146,6 +146,33 @@ void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoi
     closestPoint->z = (line->dir.z * t) + line->point.z;
 }
 
+/**
+ * Compute the closest point `closestPoint` to a position `pos` in the line segment `line`
+ */
+void Math3D_LineSegClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
+    Vec3f lineDirVector;
+    f32 dirVectorLengthSq;
+    f32 t;
+
+    Math_Vec3f_Diff(&line->b, &line->a, &lineDirVector);
+    dirVectorLengthSq = Math3D_Vec3fMagnitudeSq(&lineDirVector);
+    if (IS_ZERO(dirVectorLengthSq)) {
+        PRINTF_COLOR_WARNING();
+        PRINTF("Math3D_LineSegClosestToPoint input line is not well defined\n");
+        PRINTF_RST();
+        Math_Vec3f_Copy(closestPoint, pos);
+        return;
+    }
+
+    t = (((pos->x - line->a.x) * lineDirVector.x) + ((pos->y - line->a.y) * lineDirVector.y) +
+         ((pos->z - line->a.z) * lineDirVector.z)) /
+        dirVectorLengthSq;
+    t = CLAMP(t, 0, 1);
+    closestPoint->x = (lineDirVector.x * t) + line->a.x;
+    closestPoint->y = (lineDirVector.y * t) + line->a.y;
+    closestPoint->z = (lineDirVector.z * t) + line->a.z;
+}
+
 void Math3D_FindPointOnPlaneIntersect(f32 planeAAxis1Norm, f32 planeAAxis2Norm, f32 planeBAxis1Norm,
                                       f32 planeBAxis2Norm, f32 axis3Direction, f32 planeADist, f32 planeBDist,
                                       f32* axis1Point, f32* axis2Point) {

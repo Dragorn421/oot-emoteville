@@ -72,7 +72,11 @@ s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
 s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);
 s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z);
 
+void Math3D_LineSegClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint);
+
+struct GraphicsContext;
+
 void Math3D_DrawSphere(struct PlayState* play, Sphere16* sph);
-void Math3D_DrawCylinder(struct PlayState* play, Cylinder16* cyl);
+void Math3D_DrawCylinder(struct GraphicsContext* gfxCtx, Gfx* restrict* gfxP, Cylinder16* cyl);
 
 #endif

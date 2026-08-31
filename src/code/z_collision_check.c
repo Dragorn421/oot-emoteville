@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Tharo
+// SPDX-License-Identifier: MIT
+
+#include "config/collider_viewer.h"
 #include "gfx.h"
 #include "printf.h"
 #include "regs.h"
@@ -1108,7 +1112,9 @@ void Collider_Draw(PlayState* play, Collider* col) {
 
         case COLSHAPE_CYLINDER:
             cyl = (ColliderCylinder*)col;
-            Math3D_DrawCylinder(play, &cyl->dim);
+            OPEN_DISPS_(play->state.gfxCtx);
+            Math3D_DrawCylinder(play->state.gfxCtx, &POLY_OPA_DISP, &cyl->dim);
+            CLOSE_DISPS_(play->state.gfxCtx);
             break;
 
         case COLSHAPE_TRIS:
@@ -1127,6 +1133,17 @@ void Collider_Draw(PlayState* play, Collider* col) {
     }
 }
 
+Gfx gPolySetupDL[] = {
+    gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPPipeSync(),
+    gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
+                         G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_ZB_XLU_SURF | G_RM_ZB_XLU_SURF2),
+    gsDPSetCombineLERP(PRIMITIVE, 0, SHADE, 0, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0, SHADE, 0, 0, 0, 0, PRIMITIVE),
+    gsSPEndDisplayList(),
+};
+
 /**
  * Draws collision if AREG(15) and other AREGs are set. AREG(21) draws AT colliders, AREG(22) draws AC colliders,
  * AREG(23) draws OC colliders, AREG(24) draws dynapolys, and AREG(25) draws bg polys
@@ -1135,7 +1152,16 @@ void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChk
     Collider* col;
     s32 i;
 
+#if COLLIDER_VIEWER_ON
+    AREG(15) = true;
+    AREG(23) = true;
+#endif
+
     if (AREG(15)) {
+        OPEN_DISPS_(play->state.gfxCtx);
+
+        gSPDisplayList(POLY_OPA_DISP++, gPolySetupDL);
+
         if (AREG(21)) {
             for (i = 0; i < colChkCtx->colATCount; i++) {
                 Collider_Draw(play, colChkCtx->colAT[i]);
@@ -1147,6 +1173,7 @@ void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChk
             }
         }
         if (AREG(23)) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 128);
             for (i = 0; i < colChkCtx->colOCCount; i++) {
                 col = colChkCtx->colOC[i];
                 if (col->ocFlags1 & OC1_ON) {
@@ -1160,6 +1187,8 @@ void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChk
         if (AREG(25)) {
             BgCheck_DrawStaticCollision(play, &play->colCtx);
         }
+
+        CLOSE_DISPS_(play->state.gfxCtx);
     }
 }
 #endif

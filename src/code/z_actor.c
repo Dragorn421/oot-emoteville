@@ -1,5 +1,6 @@
 #include "libc64/math64.h"
 #include "libu64/overlay.h"
+#include "config/collider_viewer.h"
 #include "array_count.h"
 #include "fault.h"
 #include "gfx.h"
@@ -2991,6 +2992,9 @@ void Actor_DrawAll(PlayState* play, ActorContext* actorCtx) {
     }
 
 #if DEBUG_FEATURES
+#if COLLIDER_VIEWER_ON
+    HREG(76) = 1;
+#endif
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
         CollisionCheck_DrawCollision(play, &play->colChkCtx);
     }

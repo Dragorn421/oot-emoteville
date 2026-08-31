@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "actor.h"
+#include "collision_check.h"
 
 enum EmojiPropType {
     EMOJI_PROP_BED,
@@ -24,6 +25,7 @@ typedef struct ActorEmojiProp {
     ActorEmojiPropActionFunc actionFunc;
     void* tlut;
     void* tex;
+    ColliderCylinder collider;
     u16 propFlags;
     s8 requiredObjectSlot;
 } ActorEmojiProp;
