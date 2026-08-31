@@ -8,7 +8,7 @@ on:
 jobs:
   build_repo:
     # This is a *private* build container.
-    container: ghcr.io/Dragorn421/oot-build:main
+    container: ghcr.io/dragorn421/oot-build:main
     # Prevent running outside the main repo as fetching the container would fail anyway.
     if: ${{ github.repository == 'Dragorn421/oot-emoteville' }}
 
