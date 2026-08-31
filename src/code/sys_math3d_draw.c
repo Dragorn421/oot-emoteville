@@ -10,7 +10,7 @@
 #define gdSPDefVtxN(x, y, z, s, t, nx, ny, nz, ca) \
     ((Vtx){ .n = {                                 \
                 .ob = { (x), (y), (z) },           \
-                .tc = { (s) * 32, (t) * 32 },      \
+                .tc = { (s)*32, (t)*32 },          \
                 .n = { (nx), (ny), (nz) },         \
                 .a = (ca),                         \
             } })
