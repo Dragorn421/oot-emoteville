@@ -90,6 +90,13 @@ beginseg
 endseg
 
 beginseg
+    name "ovl_ActorEmojiProp"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_emoji_prop/emoji_prop.o"
+endseg
+
+beginseg
     name "ovl_ActorEmojiRock"
     compress
     flags OVERLAY

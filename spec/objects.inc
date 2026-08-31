@@ -3242,6 +3242,14 @@ beginseg
 endseg
 
 beginseg
+    name "object_emoji_furniture"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_emoji_furniture/object_emoji_furniture.o"
+    number 6
+endseg
+
+beginseg
     name "object_emoji_rock"
     compress
     romalign 0x1000

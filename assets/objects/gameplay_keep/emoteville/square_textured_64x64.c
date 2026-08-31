@@ -14,8 +14,8 @@ Gfx square_textured_64x64_dl[] = {
                          GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
                          GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM) | G_ZS_PIXEL | G_AC_NONE),
     gsDPLoadTLUT_pal16(0, 0x08000000),
-    gsDPLoadMultiBlock_4b(0x09000000, 0x000, 0, G_IM_FMT_CI, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                          G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 0, 0),
+    gsDPLoadMultiBlock_4b(0x09000000, 0x000, 0, G_IM_FMT_CI, 64, 64, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                          G_TX_NOMIRROR | G_TX_CLAMP, 6, 6, 0, 0),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(G_CULL_FRONT | G_CULL_BACK | G_TEXTURE_GEN,

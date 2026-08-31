@@ -71,6 +71,8 @@ void Setup_InitImpl(SetupState* this) {
     gSaveContext.save.linkAge = LINK_AGE_ADULT;
     gSaveContext.save.dayTime = CLOCK_TIME(12, 0);
     gSaveContext.save.entranceIndex = ENTR_MY_MAP_SCENE_0;
+    gSaveContext.save.entranceIndex = ENTR_INSIDE_HOUSE_0;
+    gSaveContext.save.entranceIndex = ENTR_INSIDE_HOUSE_UPSTAIRS_DEBUG;
 
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;

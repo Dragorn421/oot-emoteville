@@ -4,7 +4,6 @@
 #include "gfx.h"
 #include "play_state.h"
 #include "player.h"
-#include "printf.h"
 #include "scene.h"
 #include "segmented_address.h"
 #include "sys_matrix.h"
@@ -66,8 +65,16 @@ void ActorEmojiDoor_Update(Actor* thisx, PlayState* play) {
             Math_StepToF(&this->openAngle, M_PI / 3.5f, M_PI / 30);
         }
         if (this->openTimer == 5) {
-            play->nextEntranceIndex = ENTR_MY_MAP_SCENE_0;
-            play->transitionTrigger = TRANS_TRIGGER_START;
+            switch (this->actor.params) {
+                case EMOJI_DOOR_TO_INSIDE_HOUSE:
+                    play->nextEntranceIndex = ENTR_INSIDE_HOUSE_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    break;
+                case EMOJI_DOOR_TO_MY_MAP:
+                    play->nextEntranceIndex = ENTR_MY_MAP_SCENE_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    break;
+            }
         }
     } else {
         Math_StepToF(&this->openAngle, 0, M_PI / 30);

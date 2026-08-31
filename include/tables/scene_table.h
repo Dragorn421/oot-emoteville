@@ -122,3 +122,4 @@
 /* 0x6D */ DEFINE_SCENE(testroom_scene, none, SCENE_TESTROOM, SDC_DEFAULT, 0, 0)
 #endif
 DEFINE_SCENE(my_map_scene_scene, none, SCENE_MY_MAP_SCENE, SDC_DEFAULT, 0, 0)
+DEFINE_SCENE(inside_house_scene_scene, none, SCENE_INSIDE_HOUSE, SDC_DEFAULT, 0, 0)

@@ -9,13 +9,17 @@ import emoji_data_python
 
 
 def add_emoji(name: str, emoji: str, width: int, height: int):
-    emoji_unified = emoji_data_python.char_to_unified(emoji)
+    if emoji.startswith("http"):
+        svg_url = emoji
+    else:
+        emoji_unified = emoji_data_python.char_to_unified(emoji)
+        svg_url = f"https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/{emoji_unified.lower()}.svg"
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_p = Path(tmpdir)
         subprocess.check_call(
             [
                 "wget",
-                f"https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/{emoji_unified.lower()}.svg",
+                svg_url,
                 "-O",
                 str(tmpdir_p / "emoji.svg"),
             ]

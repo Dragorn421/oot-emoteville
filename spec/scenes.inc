@@ -7,3 +7,4 @@
 #endif
 
 #include "assets/scenes/emoteville/map/spec.inc"
+#include "assets/scenes/emoteville/insidehouse/spec.inc"

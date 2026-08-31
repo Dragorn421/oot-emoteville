@@ -884,7 +884,6 @@ disasm:
 	$(RM) -r $(EXPECTED_DIR)
 	VERSION=$(VERSION) DISASM_BASEROM=$(BASEROM_DIR)/baserom-decompressed.z64 DISASM_DIR=$(EXPECTED_DIR) PYTHON=$(PYTHON) AS_CMD='$(AS) $(ASFLAGS)' LD=$(LD) ./tools/disasm/do_disasm.sh
 
-resources: $(ASSET_FILES_OUT)
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
 	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
@@ -1282,3 +1281,12 @@ assets/scenes/emoteville/map/glue/glue_scene.c assets/scenes/emoteville/map/glue
 	$(BLENDER) $< --command dragex oot assets/scenes/emoteville/map/catalog.toml
 	touch assets/scenes/emoteville/map/glue/glue_scene.c
 	touch assets/scenes/emoteville/map/glue/glue_room_0.c
+
+assets/scenes/emoteville/insidehouse/glue/glue_scene.c assets/scenes/emoteville/insidehouse/glue/glue_room_0.c &: assets_src/insidehouse.blend assets/scenes/emoteville/insidehouse/catalog.toml
+	$(BLENDER) $< --command dragex oot assets/scenes/emoteville/insidehouse/catalog.toml
+	touch assets/scenes/emoteville/insidehouse/glue/glue_scene.c
+	touch assets/scenes/emoteville/insidehouse/glue/glue_room_0.c
+
+resources: $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
+$(O_FILES): | resources
+.PHONY: resources
