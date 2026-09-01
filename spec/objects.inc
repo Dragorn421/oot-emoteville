@@ -3,6 +3,7 @@ beginseg
     compress
     romalign 0x1000
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/emoteville/square_textured_64x64.o"
+    include "$(BUILD_DIR)/assets/objects/gameplay_keep/emoteville/tex_player.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/hilite_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/link_textures.o"
     include "$(BUILD_DIR)/assets/objects/gameplay_keep/player_pause_joint_tables.o"

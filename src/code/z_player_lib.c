@@ -1714,6 +1714,17 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.save.linkAge)]);
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2717);
+        } else {
+            Vec3f tipPositions[3];
+
+            if (Player_HoldsBrokenKnife(this)) {
+                sMeleeWeaponTipOffsetFromLeftHand0.x = 1500.0f;
+            } else {
+                sMeleeWeaponTipOffsetFromLeftHand0.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
+            }
+
+            Player_CalcMeleeWeaponTipPositions(this, tipPositions);
+            Math_Vec3f_Copy(MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]), &tipPositions[0]);
         }
 
         if (this->actor.scale.y >= 0.0f) {
@@ -1906,6 +1917,9 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
 
     gSegments[4] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_START(segment));
     gSegments[6] = OS_K0_TO_PHYSICAL(PAUSE_PLAYER_SEGMENT_LINK_OBJECT(segment));
+
+    assert(SEGMENT_OFFSET(&gPlayerAnim_link_normal_wait) + sizeof(gPlayerAnim_link_normal_wait) <=
+           PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE);
 
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);

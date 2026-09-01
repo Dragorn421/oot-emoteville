@@ -1,6 +1,11 @@
 #include "player_anim_headers.h"
 #include "assets/misc/link_animetion/link_animetion.h"
 
+// gPlayerAnim_link_normal_wait must be in the PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE first bytes of gkeep
+LinkAnimationHeader gPlayerAnim_link_normal_wait = {
+#include "assets/objects/gameplay_keep/gPlayerAnim_link_normal_wait.inc.c"
+};
+
 LinkAnimationHeader gPlayerAnim_clink_demo_DDbox_open = {
 #include "assets/objects/gameplay_keep/gPlayerAnim_clink_demo_DDbox_open.inc.c"
 };
@@ -1939,10 +1944,6 @@ LinkAnimationHeader gPlayerAnim_link_normal_waitR2wait = {
 
 LinkAnimationHeader gPlayerAnim_link_normal_waitR_free = {
 #include "assets/objects/gameplay_keep/gPlayerAnim_link_normal_waitR_free.inc.c"
-};
-
-LinkAnimationHeader gPlayerAnim_link_normal_wait = {
-#include "assets/objects/gameplay_keep/gPlayerAnim_link_normal_wait.inc.c"
 };
 
 LinkAnimationHeader gPlayerAnim_link_normal_wait_free = {
