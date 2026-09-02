@@ -12207,9 +12207,11 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
     POLY_OPA_DISP = gfx_opa_saved;
 
     float age_scale = LINK_IS_ADULT ? 1 : 0.7f;
+    s16 yaw_towards_eye = Actor_WorldYawTowardPoint(&this->actor, &play->view.eye);
+    float yaw = BINANG_TO_RAD(Math_SlightBillboardY(this->actor.shape.rot.y, yaw_towards_eye, 0xC00, 0x100, 0x800));
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_HEAD]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateY(yaw, MTXMODE_APPLY);
         float s = 0.03f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
@@ -12220,7 +12222,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
 
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_WAIST]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateY(yaw, MTXMODE_APPLY);
         float s = 0.03f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         Matrix_Translate(0, -750, 100, MTXMODE_APPLY);
@@ -12231,7 +12233,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
 
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_HAND]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateY(yaw, MTXMODE_APPLY);
         float s = 0.012f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
@@ -12296,7 +12298,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
 
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_HAND]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y) + M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
         float s = 0.012f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
@@ -12307,7 +12309,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
 
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_FOOT]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateY(yaw, MTXMODE_APPLY);
         float s = 0.013f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));
@@ -12317,7 +12319,7 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
 
     {
         Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_FOOT]), MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y) + M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
         float s = 0.013f * age_scale;
         Matrix_Scale(s, s, s, MTXMODE_APPLY);
         gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));

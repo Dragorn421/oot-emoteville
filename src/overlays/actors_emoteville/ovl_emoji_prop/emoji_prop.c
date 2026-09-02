@@ -149,46 +149,8 @@ void ActorEmojiProp_UpdateImpl(ActorEmojiProp* this, PlayState* play) {
         const s16 slight_bb_activate_angle = 0xC00;
         const s16 slight_bb_activate_full_angle = 0x100;
         const s16 slight_bb_min_rel_angle = this->propFlags & PROP_FLAG_SLIGHT_BILLBOARD_TINY ? 0x200 : 0x800;
-        s16 rel_yaw_towards_eye = yaw_towards_eye - this->actor.home.rot.y;
-        float f = -1;
-        s16 targetYaw = this->actor.home.rot.y;
-        if (ABS(rel_yaw_towards_eye) < 0x4000) {
-            if (rel_yaw_towards_eye < 0) {
-                if (rel_yaw_towards_eye < -0x4000 + slight_bb_activate_full_angle) {
-                    targetYaw = this->actor.home.rot.y - slight_bb_min_rel_angle;
-                } else if (rel_yaw_towards_eye < -0x4000 + slight_bb_activate_angle) {
-                    f = 1 - (float)((rel_yaw_towards_eye + 0x4000) - slight_bb_activate_full_angle) /
-                                (slight_bb_activate_angle - slight_bb_activate_full_angle);
-                    targetYaw = this->actor.home.rot.y - slight_bb_min_rel_angle * f;
-                }
-            } else {
-                if (rel_yaw_towards_eye > 0x4000 - slight_bb_activate_full_angle) {
-                    targetYaw = this->actor.home.rot.y + slight_bb_min_rel_angle;
-                } else if (rel_yaw_towards_eye > 0x4000 - slight_bb_activate_angle) {
-                    f = 1 - (float)(-(rel_yaw_towards_eye - 0x4000) - slight_bb_activate_full_angle) /
-                                (slight_bb_activate_angle - slight_bb_activate_full_angle);
-                    targetYaw = this->actor.home.rot.y + slight_bb_min_rel_angle * f;
-                }
-            }
-        } else {
-            if (rel_yaw_towards_eye < 0) {
-                if (rel_yaw_towards_eye > -0x4000 - slight_bb_activate_full_angle) {
-                    targetYaw = this->actor.home.rot.y + slight_bb_min_rel_angle;
-                } else if (rel_yaw_towards_eye > -0x4000 - slight_bb_activate_angle) {
-                    f = 1 - (float)(-(rel_yaw_towards_eye + 0x4000) - slight_bb_activate_full_angle) /
-                                (slight_bb_activate_angle - slight_bb_activate_full_angle);
-                    targetYaw = this->actor.home.rot.y + slight_bb_min_rel_angle * f;
-                }
-            } else {
-                if (rel_yaw_towards_eye < 0x4000 + slight_bb_activate_full_angle) {
-                    targetYaw = this->actor.home.rot.y - slight_bb_min_rel_angle;
-                } else if (rel_yaw_towards_eye < 0x4000 + slight_bb_activate_angle) {
-                    f = 1 - (float)((rel_yaw_towards_eye - 0x4000) - slight_bb_activate_full_angle) /
-                                (slight_bb_activate_angle - slight_bb_activate_full_angle);
-                    targetYaw = this->actor.home.rot.y - slight_bb_min_rel_angle * f;
-                }
-            }
-        }
+        s16 targetYaw = Math_SlightBillboardY(this->actor.home.rot.y, yaw_towards_eye, slight_bb_activate_angle,
+                                              slight_bb_activate_full_angle, slight_bb_min_rel_angle);
         Math_SmoothStepToS(&this->actor.shape.rot.y, targetYaw, 2, 0x400, 0x80);
     }
 }

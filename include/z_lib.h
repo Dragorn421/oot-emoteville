@@ -40,5 +40,6 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src);
 void Sfx_PlaySfxCentered(u16 sfxId);
 void Sfx_PlaySfxCentered2(u16 sfxId);
 void Sfx_PlaySfxAtPos(Vec3f* projectedPos, u16 sfxId);
+s16 Math_SlightBillboardY(s16 yaw, s16 yaw_towards_eye, s16 activate_angle, s16 activate_full_angle, s16 min_rel_angle);
 
 #endif
