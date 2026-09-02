@@ -69,8 +69,14 @@ static struct {
     void* tex;
     float scale;
 } prop_info[EMOJI_PROP_MAX] = {
+    [EMOJI_PROP_ABACUS] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_COLLIDER_NARROW, emoji_abacus_64x64_TLUT,
+                            emoji_abacus_64x64, 0.03f },
     [EMOJI_PROP_BED] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_SLIGHT_BILLBOARD_TINY, emoji_bed_64x64_TLUT, emoji_bed_64x64,
                          0.11f },
+    [EMOJI_PROP_BOOKS_PILE] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_COLLIDER_NARROW, emoji_books_pile_64x64_TLUT,
+                                emoji_books_pile_64x64, 0.03f },
+    [EMOJI_PROP_CALENDAR] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_SLIGHT_BILLBOARD_TINY | PROP_FLAG_COLLIDER_NARROW,
+                              emoji_calendar_64x64_TLUT, emoji_calendar_64x64, 0.03f },
     [EMOJI_PROP_CHAIR] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_COLLIDER_NARROW, emoji_chair_64x64_TLUT, emoji_chair_64x64,
                            0.05f },
     [EMOJI_PROP_FILE_CABINET_SMALL] = { OBJECT_EMOJI_FURNITURE,
@@ -84,8 +90,14 @@ static struct {
                                       emoji_file_cabinet_64x64_TLUT, emoji_file_cabinet_64x64, 0.07f },
     [EMOJI_PROP_LIGHTBULB] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_BILLBOARD_Y | PROP_FLAG_NO_COLLIDER,
                                emoji_lightbulb_64x64_TLUT, emoji_lightbulb_64x64, 0.02f },
+    [EMOJI_PROP_PAINTING] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_SLIGHT_BILLBOARD_TINY | PROP_FLAG_COLLIDER_NARROW,
+                              emoji_painting_64x64_TLUT, emoji_painting_64x64, 0.05f },
     [EMOJI_PROP_SOFA] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_SLIGHT_BILLBOARD_TINY, emoji_sofa_64x64_TLUT,
                           emoji_sofa_64x64, 0.11f },
+    [EMOJI_PROP_TEDDY_BEAR] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_COLLIDER_NARROW, emoji_teddy_bear_64x64_TLUT,
+                                emoji_teddy_bear_64x64, 0.03f },
+    [EMOJI_PROP_TOOLBOX] = { OBJECT_EMOJI_FURNITURE, PROP_FLAG_COLLIDER_NARROW, emoji_toolbox_64x64_TLUT,
+                             emoji_toolbox_64x64, 0.03f },
 };
 
 void ActorEmojiProp_Init(Actor* thisx, PlayState* play) {

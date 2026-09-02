@@ -103,6 +103,10 @@ Vec3s inside_house_scene_VtxList[] = {
     { 59, 323, -119 },
     { -400, 323, -119 },
     { -400, 443, 6 },
+    { -102, 36, -205 },
+    { -40, 36, -205 },
+    { -40, 98, -205 },
+    { -102, 98, -205 },
 };
 CollisionPoly inside_house_scene_PolyList[] = {
 /*
@@ -4060,6 +4064,52 @@ CollisionPoly inside_house_scene_PolyList[] = {
             COLPOLY_SNORMAL(-1.000000),
         },
         -124,
+    },
+/*
+  0 = -102.860237 36.404278 -205.206757
+  1 = -40.904404 36.404278 -205.206757
+  2 = -40.904404 98.360115 -205.206741
+  u = 61.955833 0.000000 0.000000
+  v = 61.955833 61.955837 0.000015
+  n = 0.000000 -0.000945 3838.525635
+  nn = 3838.525635
+ */
+    {
+        INSIDE_HOUSE_SCENE_SURFACETYPE_DEFAULT,
+        {
+            COLPOLY_VTX(96, INSIDE_HOUSE_SCENE_COL_DEFAULT_FLAGS_A),
+            COLPOLY_VTX(97, INSIDE_HOUSE_SCENE_COL_DEFAULT_FLAGS_B),
+            COLPOLY_VTX(98, 0),
+        },
+        {
+            COLPOLY_SNORMAL(0.000000),
+            COLPOLY_SNORMAL(-0.000000),
+            COLPOLY_SNORMAL(1.000000),
+        },
+        205,
+    },
+/*
+  0 = -102.860237 36.404278 -205.206757
+  1 = -40.904404 98.360115 -205.206741
+  2 = -102.860237 98.360115 -205.206741
+  u = 61.955833 61.955837 0.000015
+  v = 0.000000 61.955837 0.000015
+  n = 0.000000 -0.000945 3838.525635
+  nn = 3838.525635
+ */
+    {
+        INSIDE_HOUSE_SCENE_SURFACETYPE_DEFAULT,
+        {
+            COLPOLY_VTX(96, INSIDE_HOUSE_SCENE_COL_DEFAULT_FLAGS_A),
+            COLPOLY_VTX(98, INSIDE_HOUSE_SCENE_COL_DEFAULT_FLAGS_B),
+            COLPOLY_VTX(99, 0),
+        },
+        {
+            COLPOLY_SNORMAL(0.000000),
+            COLPOLY_SNORMAL(-0.000000),
+            COLPOLY_SNORMAL(1.000000),
+        },
+        205,
     },
 };
 CollisionHeader inside_house_scene_Col = {

@@ -1283,6 +1283,8 @@ assets/scenes/emoteville/map/glue/glue_scene.c assets/scenes/emoteville/map/glue
 	touch assets/scenes/emoteville/map/glue/glue_room_0.c
 
 assets/scenes/emoteville/insidehouse/glue/glue_scene.c assets/scenes/emoteville/insidehouse/glue/glue_room_0.c &: assets_src/insidehouse.blend assets/scenes/emoteville/insidehouse/catalog.toml
+# TODO when blender exports new png files, compilation will fail because make didn't initially pick up those png files for converting to .inc.c
+# the workaround is to just make again
 	$(BLENDER) $< --command dragex oot assets/scenes/emoteville/insidehouse/catalog.toml
 	touch assets/scenes/emoteville/insidehouse/glue/glue_scene.c
 	touch assets/scenes/emoteville/insidehouse/glue/glue_room_0.c

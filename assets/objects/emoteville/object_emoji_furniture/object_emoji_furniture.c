@@ -35,3 +35,45 @@ u64 emoji_file_cabinet_64x64_TLUT[] = {
 u64 emoji_file_cabinet_64x64[] = {
 #include "assets/objects/emoteville/object_emoji_furniture/file_cabinet_64x64.ci4.inc.c"
 };
+
+u64 emoji_books_pile_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/books_pile_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_books_pile_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/books_pile_64x64.ci4.inc.c"
+};
+
+u64 emoji_teddy_bear_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/teddy_bear_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_teddy_bear_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/teddy_bear_64x64.ci4.inc.c"
+};
+
+u64 emoji_abacus_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/abacus_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_abacus_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/abacus_64x64.ci4.inc.c"
+};
+
+u64 emoji_calendar_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/calendar_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_calendar_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/calendar_64x64.ci4.inc.c"
+};
+
+u64 emoji_toolbox_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/toolbox_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_toolbox_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/toolbox_64x64.ci4.inc.c"
+};
+
+u64 emoji_painting_64x64_TLUT[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/painting_64x64.tlut.rgba16.inc.c"
+};
+u64 emoji_painting_64x64[] = {
+#include "assets/objects/emoteville/object_emoji_furniture/painting_64x64.ci4.inc.c"
+};

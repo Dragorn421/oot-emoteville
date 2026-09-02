@@ -12,12 +12,20 @@ u64 inside_house_Scene_Room_0_ladder_64x64_pngTLUT[] = {
 #include "assets/scenes/emoteville/insidehouse/exported/inside_house_Scene_Room_0_ladder_64x64_png.tlut.rgba16.inc.c"
 };
 
+u64 inside_house_Scene_Room_0_painting_64x64_pngTLUT[] = {
+#include "assets/scenes/emoteville/insidehouse/exported/inside_house_Scene_Room_0_painting_64x64_png.tlut.rgba16.inc.c"
+};
+
 u64 inside_house_Scene_Room_0_window_64x64_png[] = {
 #include "assets/scenes/emoteville/insidehouse/exported/inside_house_Scene_Room_0_window_64x64_png.ci4.inc.c"
 };
 
 u64 inside_house_Scene_Room_0_ladder_64x64_png[] = {
 #include "assets/scenes/emoteville/insidehouse/exported/inside_house_Scene_Room_0_ladder_64x64_png.ci4.inc.c"
+};
+
+u64 inside_house_Scene_Room_0_painting_64x64_png[] = {
+#include "assets/scenes/emoteville/insidehouse/exported/inside_house_Scene_Room_0_painting_64x64_png.ci4.inc.c"
 };
 
 // Hi from write_mesh_info_to_f3d_c
@@ -114,6 +122,7 @@ Vtx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_floo
     {{ { -400, 141, 6 }, 0, { 0, 32 }, { 0x0, 0x0, 0x7F, 255 } }},
     {{ { -106, 141, 114 }, 0, { 16, 21 }, { 0x0, 0x0, 0x7F, 255 } }},
     {{ { -106, 141, 6 }, 0, { 0, 32 }, { 0x0, 0x0, 0x7F, 255 } }},
+    {{ { -106, 141, 6 }, 0, { 0, 32 }, { 0x0, 0x0, 0x7F, 255 } }},
     {{ { -22, 141, 114 }, 0, { 16, 18 }, { 0x0, 0x0, 0x7F, 255 } }},
     {{ { -22, 141, 6 }, 0, { 0, 32 }, { 0x0, 0x0, 0x7F, 255 } }},
     {{ { -106, 141, -119 }, 0, { 0, 32 }, { 0x0, 0x0, 0x7F, 255 } }},
@@ -145,18 +154,18 @@ Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_floo
     gsSP2Triangles(22, 25, 26, 0, 22, 27, 25, 0),
     gsSP2Triangles(27, 28, 29, 0, 27, 30, 28, 0),
     gsSP1Triangle(30, 31, 28, 0),
-    gsSPVertex(&inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_floor_mesh_vtx[32], 30, 0),
+    gsSPVertex(&inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_floor_mesh_vtx[32], 31, 0),
     gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
     gsSP2Triangles(3, 4, 1, 0, 5, 6, 3, 0),
     gsSP2Triangles(5, 7, 6, 0, 8, 7, 5, 0),
     gsSP2Triangles(8, 9, 7, 0, 10, 8, 11, 0),
     gsSP2Triangles(10, 11, 12, 0, 12, 5, 13, 0),
-    gsSP2Triangles(12, 13, 14, 0, 14, 13, 15, 0),
-    gsSP2Triangles(14, 15, 16, 0, 17, 14, 16, 0),
-    gsSP2Triangles(17, 16, 18, 0, 19, 20, 17, 0),
-    gsSP2Triangles(19, 17, 21, 0, 22, 23, 24, 0),
-    gsSP2Triangles(22, 24, 25, 0, 26, 27, 28, 0),
-    gsSP1Triangle(26, 28, 29, 0),
+    gsSP2Triangles(12, 13, 14, 0, 15, 13, 16, 0),
+    gsSP2Triangles(15, 16, 17, 0, 18, 15, 17, 0),
+    gsSP2Triangles(18, 17, 19, 0, 20, 21, 18, 0),
+    gsSP2Triangles(20, 18, 22, 0, 23, 24, 25, 0),
+    gsSP2Triangles(23, 25, 26, 0, 27, 28, 29, 0),
+    gsSP1Triangle(27, 29, 30, 0),
     gsSPEndDisplayList(),
 };
 Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_walls_mat_dl[] = {
@@ -490,6 +499,7 @@ Vtx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceil
     {{ { 59, 323, -119 }, 0, { 0, 32 }, { 0x0, 0xA9, 0xA5, 255 } }},
     {{ { -400, 323, -119 }, 0, { 0, 32 }, { 0x0, 0xA9, 0xA5, 255 } }},
     {{ { 59, 443, 6 }, 0, { 0, 32 }, { 0x0, 0xA9, 0xA5, 255 } }},
+    {{ { -400, 323, -119 }, 0, { 0, 32 }, { 0x0, 0xA9, 0xA5, 255 } }},
     {{ { -400, 443, 6 }, 0, { 0, 32 }, { 0x0, 0xA9, 0xA5, 255 } }},
 };
 Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceiling_mesh_dl[] = {
@@ -504,12 +514,12 @@ Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceil
     gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0),
     gsSP2Triangles(24, 25, 26, 0, 24, 26, 27, 0),
     gsSP2Triangles(28, 29, 30, 0, 28, 30, 31, 0),
-    gsSPVertex(&inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceiling_mesh_vtx[32], 17, 0),
+    gsSPVertex(&inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceiling_mesh_vtx[32], 18, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 3, 5, 0, 4, 6, 3, 0),
     gsSP2Triangles(7, 8, 9, 0, 7, 9, 10, 0),
     gsSP2Triangles(11, 12, 13, 0, 11, 13, 14, 0),
-    gsSP2Triangles(15, 14, 13, 0, 15, 16, 14, 0),
+    gsSP2Triangles(15, 16, 13, 0, 15, 17, 16, 0),
     gsSPEndDisplayList(),
 };
 Gfx inside_house_Scene_Room_0_floor_walls_ceiling_dl[] = {
@@ -744,6 +754,68 @@ Gfx inside_house_Scene_Room_0_ladder_dl[] = {
     gsSPDisplayList(inside_house_Scene_Room_0_ladder_inside_house_Scene_Room_0_ladder_top_mesh_dl),
     gsSPEndDisplayList(),
 };
+// Hi from write_mesh_info_to_f3d_c
+Gfx inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mat_dl[] = {
+    gsDPPipeSync(),
+    gsDPSetOtherMode(
+        G_PM_NPRIMITIVE
+      | G_CYC_2CYCLE
+      | G_TP_PERSP
+      | G_TD_CLAMP
+      | G_TL_TILE
+      | G_TT_RGBA16
+      | G_TF_BILERP
+      | G_TC_FILT
+      | G_CK_NONE
+      | G_CD_MAGICSQ
+      | G_AD_PATTERN
+        ,
+        AA_EN | Z_CMP | Z_UPD | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL
+      | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA)
+      | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)
+      | G_ZS_PIXEL
+      | G_AC_NONE
+    ),
+    gsDPLoadTLUT_pal16(0, inside_house_Scene_Room_0_painting_64x64_pngTLUT),
+    gsDPLoadMultiBlock_4b(inside_house_Scene_Room_0_painting_64x64_png, 0x000, 0, G_IM_FMT_CI, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 0, 0),
+    gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0x0, 0x000, 1, 0, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, G_TX_NOMIRROR | G_TX_WRAP, 0, 0),
+    gsDPSetTileSize(1, (int)(0.00 * 4), (int)(0.00 * 4), (int)(0.00 * 4), (int)(0.00 * 4)),
+    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetPrimDepth(0, 0),
+    gsDPSetFogColor(255, 255, 255, 255),
+    gsDPSetBlendColor(255, 255, 255, 255),
+    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
+    gsDPSetEnvColor(255, 255, 255, 255),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsSPGeometryMode(
+        G_CULL_FRONT
+      | G_TEXTURE_GEN
+        ,
+        G_ZBUFFER
+      | G_SHADE
+      | G_LIGHTING
+      | G_CULL_BACK
+      | G_FOG
+      | G_SHADING_SMOOTH
+    ),
+    gsSPEndDisplayList(),
+};
+Vtx inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mesh_vtx[] = {
+    {{ { -102, 36, -205 }, 0, { 0, 2048 }, { 0x0, 0x0, 0x7F, 255 } }},
+    {{ { -40, 36, -205 }, 0, { 2048, 2048 }, { 0x0, 0x0, 0x7F, 255 } }},
+    {{ { -40, 98, -205 }, 0, { 2048, 0 }, { 0x0, 0x0, 0x7F, 255 } }},
+    {{ { -102, 98, -205 }, 0, { 0, 0 }, { 0x0, 0x0, 0x7F, 255 } }},
+};
+Gfx inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mesh_dl[] = {
+    gsSPVertex(&inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mesh_vtx[0], 4, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSPEndDisplayList(),
+};
+Gfx inside_house_Scene_Room_0_Plane_dl[] = {
+    gsSPDisplayList(inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mat_dl),
+    gsSPDisplayList(inside_house_Scene_Room_0_Plane_inside_house_Scene_Room_0_painting_mesh_dl),
+    gsSPEndDisplayList(),
+};
 RoomShapeDListsEntry inside_house_scene_Room_0_DListsEntries[] = {
     {
         inside_house_Scene_Room_0_floor_walls_ceiling_dl,
@@ -755,6 +827,10 @@ RoomShapeDListsEntry inside_house_scene_Room_0_DListsEntries[] = {
     },
     {
         inside_house_Scene_Room_0_ladder_dl,
+        NULL,
+    },
+    {
+        inside_house_Scene_Room_0_Plane_dl,
         NULL,
     },
 };
