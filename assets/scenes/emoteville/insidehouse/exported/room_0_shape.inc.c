@@ -58,7 +58,7 @@ Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_floo
     gsDPSetPrimDepth(0, 0),
     gsDPSetFogColor(255, 255, 255, 255),
     gsDPSetBlendColor(255, 255, 255, 255),
-    gsDPSetPrimColor(0, 0, 127, 76, 33, 255),
+    gsDPSetPrimColor(0, 0, 187, 149, 101, 255),
     gsDPSetEnvColor(255, 255, 255, 127),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(
@@ -197,7 +197,7 @@ Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_wall
     gsDPSetPrimDepth(0, 0),
     gsDPSetFogColor(255, 255, 255, 255),
     gsDPSetBlendColor(255, 255, 255, 255),
-    gsDPSetPrimColor(0, 0, 101, 45, 127, 255),
+    gsDPSetPrimColor(0, 0, 170, 117, 187, 255),
     gsDPSetEnvColor(255, 255, 255, 127),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(
@@ -434,7 +434,7 @@ Gfx inside_house_Scene_Room_0_floor_walls_ceiling_inside_house_Scene_Room_0_ceil
     gsDPSetPrimDepth(0, 0),
     gsDPSetFogColor(255, 255, 255, 255),
     gsDPSetBlendColor(255, 255, 255, 255),
-    gsDPSetPrimColor(0, 0, 108, 67, 124, 255),
+    gsDPSetPrimColor(0, 0, 175, 141, 185, 255),
     gsDPSetEnvColor(255, 255, 255, 127),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(
@@ -561,7 +561,7 @@ Gfx inside_house_Scene_Room_0_windows_inside_house_Scene_Room_0_window_mat_dl[] 
     gsDPSetPrimDepth(0, 0),
     gsDPSetFogColor(255, 255, 255, 255),
     gsDPSetBlendColor(255, 255, 255, 255),
-    gsDPSetPrimColor(0, 0, 101, 45, 127, 255),
+    gsDPSetPrimColor(0, 0, 170, 117, 187, 255),
     gsDPSetEnvColor(255, 255, 255, 127),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(

@@ -42,7 +42,7 @@ Gfx My_map_Scene_Room_0_Room_0_Mesh_My_map_Scene_Room_0_Material_mat_dl[] = {
     gsDPSetPrimDepth(0, 0),
     gsDPSetFogColor(255, 255, 255, 255),
     gsDPSetBlendColor(255, 255, 255, 255),
-    gsDPSetPrimColor(0, 0, 14, 122, 0, 255),
+    gsDPSetPrimColor(0, 0, 66, 184, 0, 255),
     gsDPSetEnvColor(255, 255, 255, 127),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPGeometryMode(
