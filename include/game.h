@@ -49,4 +49,6 @@ void* GameState_Alloc(GameState* gameState, size_t size, const char* file, int l
 #define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
 #endif
 
+#define GAME_STATE_ALLOC_(gameState, size) GAME_STATE_ALLOC(gameState, size, __FILE__, __LINE__)
+
 #endif

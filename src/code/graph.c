@@ -23,6 +23,7 @@
 #include "title_setup_state.h"
 #include "translation.h"
 #include "ucode_disas.h"
+#include "ultra64/gbi.h"
 #include "versions.h"
 #include "vi_mode.h"
 #include "z_game_dlftbls.h"
@@ -249,7 +250,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_TOGGLE = 1;
                 R_UCODE_DISAS_LOG_LEVEL = 2;
-                Graph_DisassembleUCode(sPrevTaskWorkBuffer);
+                // Graph_DisassembleUCode(sPrevTaskWorkBuffer);
             }
 #endif
 

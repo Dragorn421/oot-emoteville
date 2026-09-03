@@ -4,6 +4,7 @@
 #include "ultra64/ultratypes.h"
 #include "ultra64/gbi.h"
 
+#include "color.h"
 #include "romfile.h"
 #include "z_math.h"
 
@@ -38,13 +39,17 @@ typedef enum SkyboxId {
     /* 0x20 */ SKYBOX_HOUSE_MIDO = 32,
     /* 0x21 */ SKYBOX_HOUSE_SARIA,
     /* 0x22 */ SKYBOX_HOUSE_ALLEY,
-    /* 0x27 */ SKYBOX_UNSET_27 = 39
+    /* 0x27 */ SKYBOX_UNSET_27 = 39,
+    SKYBOX_COLOR_ONLY,
+    SKYBOX_MAX
 } SkyboxId;
 
 typedef enum SkyboxDrawType {
     /* 0 */ SKYBOX_DRAW_128,       // 128x128 top/bottom faces, 128x64 side faces
     /* 1 */ SKYBOX_DRAW_256_4FACE, // 256x256 all side faces with per-face palettes
-    /* 2 */ SKYBOX_DRAW_256_3FACE  // 256x256 3/4 side faces with per-face palettes
+    /* 2 */ SKYBOX_DRAW_256_3FACE, // 256x256 3/4 side faces with per-face palettes
+    SKYBOX_DRAW_COLOR_ONLY,
+    SKYBOX_DRAW_MAX
 } SkyboxDrawType;
 
 typedef struct SkyboxContext {
@@ -57,6 +62,8 @@ typedef struct SkyboxContext {
     /* 0x140 */ s16 drawType;
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
+    Color_RGB8 color_only_top;
+    Color_RGB8 color_only_bottom;
 } SkyboxContext; // size = 0x160
 
 typedef struct SkyboxFile {

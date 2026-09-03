@@ -1,6 +1,7 @@
 #include "skybox.h"
 
 #include "array_count.h"
+#include "gfx.h"
 #include "printf.h"
 #include "segment_symbols.h"
 #include "terminal.h"
@@ -9,6 +10,10 @@
 #include "game.h"
 #include "play_state.h"
 #include "save.h"
+#include "ultra64/gbi.h"
+#include <string.h>
+
+#include "assets/objects/gameplay_keep/emoteville/environment.h"
 
 typedef struct SkyboxFaceParams {
     /* 0x000 */ s32 xStart;
@@ -459,6 +464,42 @@ void Skybox_Calculate128(SkyboxContext* skyboxCtx, s32 nFaces) {
             sSkybox128FaceParams[faceNum].yStart, sSkybox128FaceParams[faceNum].zStart,
             sSkybox128FaceParams[faceNum].outerIncrVal, sSkybox128FaceParams[faceNum].innerIncrVal, faceNum);
     }
+}
+
+/**
+ *    7-----6
+ *   /|    /|
+ *  / |   / |  y ^
+ * 4--+--5  |    |
+ * |  |  |  |    |
+ * |  3--+--2    o---> x
+ * | /   | /    /
+ * |/    |/    v z
+ * 0-----1
+ */
+static Vtx skybox_color_only_vtx[] = {
+    VTX(-64, -64, 64, 0, 0, 0, 0, 0, 0),                 // 0
+    VTX(64, -64, 64, 0, 0, 0, 0, 0, 0),                  // 1
+    VTX(64, -64, -64, 0, 0, 0, 0, 0, 0),                 // 2
+    VTX(-64, -64, -64, 0, 0, 0, 0, 0, 0),                // 3
+    VTX(-64, 64, 64, 32 * (1 << 5) * 2, 0, 0, 0, 0, 0),  // 4
+    VTX(64, 64, 64, 32 * (1 << 5) * 2, 0, 0, 0, 0, 0),   // 5
+    VTX(64, 64, -64, 32 * (1 << 5) * 2, 0, 0, 0, 0, 0),  // 6
+    VTX(-64, 64, -64, 32 * (1 << 5) * 2, 0, 0, 0, 0, 0), // 7
+};
+
+void Skybox_CalculateColorOnly(SkyboxContext* skyboxCtx) {
+    Gfx* gfx = skyboxCtx->dListBuf[0];
+    gDPLoadTextureBlock(gfx++, gradient_tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSPVertex(gfx++, skybox_color_only_vtx, 8, 0);
+    gSP2Triangles(gfx++, 0, 4, 7, 0, 7, 3, 0, 0); // -x
+    gSP2Triangles(gfx++, 1, 2, 6, 0, 6, 5, 1, 0); // +x
+    gSP2Triangles(gfx++, 0, 3, 2, 0, 2, 1, 0, 0); // -y
+    gSP2Triangles(gfx++, 4, 5, 6, 0, 6, 7, 4, 0); // +y
+    gSP2Triangles(gfx++, 2, 3, 7, 0, 7, 6, 2, 0); // -z
+    gSP2Triangles(gfx++, 0, 1, 5, 0, 5, 4, 0, 0); // +z
+    gSPEndDisplayList(gfx++);
 }
 
 void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
@@ -1022,6 +1063,10 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
         case SKYBOX_UNSET_27:
             break;
+
+        case SKYBOX_COLOR_ONLY:
+            skyboxCtx->drawType = SKYBOX_DRAW_COLOR_ONLY;
+            break;
     }
 }
 
@@ -1040,7 +1085,14 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
     if (skyboxId != SKYBOX_NONE) {
         PRINTF_COLOR_GREEN();
 
-        if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
+        if (skyboxCtx->drawType == SKYBOX_DRAW_COLOR_ONLY) {
+            skyboxCtx->dListBuf = GAME_STATE_ALLOC_(state, 1 * 150 * sizeof(Gfx));
+            assert(skyboxCtx->dListBuf != NULL);
+
+            skyboxCtx->roomVtx = NULL;
+
+            Skybox_CalculateColorOnly(skyboxCtx);
+        } else if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
             skyboxCtx->dListBuf = GAME_STATE_ALLOC(state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
             ASSERT(skyboxCtx->dListBuf != NULL, "vr_box->dpList != NULL", "../z_vr_box.c", 1637);
 

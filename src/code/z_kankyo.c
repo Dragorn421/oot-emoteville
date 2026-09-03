@@ -5,6 +5,7 @@
 #include "libu64/gfxprint.h"
 #include "array_count.h"
 #include "buffers.h"
+#include "color.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "gfxalloc.h"
@@ -17,6 +18,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "skybox.h"
 #include "sys_math.h"
 #include "sys_math3d.h"
 #include "sys_matrix.h"
@@ -24,6 +26,7 @@
 #include "translation.h"
 #include "versions.h"
 #include "z_lib.h"
+#include "z_math.h"
 #include "audio.h"
 #include "cutscene.h"
 #include "frame_advance.h"
@@ -32,6 +35,8 @@
 #include "player.h"
 #include "save.h"
 
+#include "assets/objects/gameplay_keep/emoteville/environment.h"
+#include "assets/objects/gameplay_keep/emoteville/square_textured_64x64.h"
 #include "assets/objects/gameplay_keep/eff_lightning.h"
 #include "assets/objects/gameplay_keep/eff_shockwave.h"
 #include "assets/objects/gameplay_keep/raindrop_model.h"
@@ -831,6 +836,58 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         }
 
         envCtx->skyboxBlend = skyboxBlend;
+    } else if (skyboxId == SKYBOX_COLOR_ONLY) {
+        struct {
+            u16 startTime;
+            u16 endTime;
+            u8 color_index_1;
+            u8 color_index_2;
+        } colors_by_time[] = {
+            { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 3, 3 },
+            { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, 3, 0 },
+            { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), 0, 0 },
+            { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 0, 1 },
+            { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 1, 1 },
+            { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 1, 2 },
+            { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, 2, 2 },
+            { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, 2, 3 },
+            { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 3, 3 },
+        };
+        static Color_RGB8 colors[][2] = {
+            {
+                { 115, 107, 148 },
+                { 189, 148, 132 },
+            },
+            {
+                { 57, 66, 189 },
+                { 156, 189, 255 },
+            },
+            {
+                { 149, 99, 107 },
+                { 255, 148, 66 },
+            },
+            {
+                { 0, 8, 33 },
+                { 0, 57, 165 },
+            },
+        };
+
+        for (i = 0; i < ARRAY_COUNT(colors_by_time); i++) {
+            if (gSaveContext.skyboxTime >= colors_by_time[i].startTime &&
+                (gSaveContext.skyboxTime < colors_by_time[i].endTime || colors_by_time[i].endTime == 0xFFFF)) {
+                int c1i = colors_by_time[i].color_index_1;
+                int c2i = colors_by_time[i].color_index_2;
+                float fac = Environment_LerpWeight(colors_by_time[i].endTime, colors_by_time[i].startTime,
+                                                   gSaveContext.skyboxTime);
+                skyboxCtx->color_only_top.r = LERP(colors[c1i][0].r, colors[c2i][0].r, fac);
+                skyboxCtx->color_only_top.g = LERP(colors[c1i][0].g, colors[c2i][0].g, fac);
+                skyboxCtx->color_only_top.b = LERP(colors[c1i][0].b, colors[c2i][0].b, fac);
+                skyboxCtx->color_only_bottom.r = LERP(colors[c1i][1].r, colors[c2i][1].r, fac);
+                skyboxCtx->color_only_bottom.g = LERP(colors[c1i][1].g, colors[c2i][1].g, fac);
+                skyboxCtx->color_only_bottom.b = LERP(colors[c1i][1].b, colors[c2i][1].b, fac);
+                break;
+            }
+        }
     }
 }
 
@@ -1452,6 +1509,9 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     }
 
     if (gSaveContext.save.entranceIndex != ENTR_HYRULE_FIELD_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
+        static Lights0 nolight = gdSPDefLights0(255, 255, 255);
+        gSPSetLights0(POLY_OPA_DISP++, nolight);
+
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -1481,10 +1541,14 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         gDPSetEnvColor(POLY_OPA_DISP++, 255, (u8)(color * 255.0f), (u8)(color * 255.0f), alpha);
 
         scale = (color * 2.0f) + 10.0f;
+        scale *= 0.1f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+        Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+        Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
         MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kankyo.c", 2364);
-        Gfx_SetupDL_54Opa(play->state.gfxCtx);
-        gSPDisplayList(POLY_OPA_DISP++, gSunDL);
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_sun_64x64_TLUT));
+        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_sun_64x64));
+        gSPDisplayList(POLY_OPA_DISP++, square_textured_64x64_dl);
 
         Matrix_Translate(play->view.eye.x - play->envCtx.sunPos.x, play->view.eye.y - play->envCtx.sunPos.y,
                          play->view.eye.z - play->envCtx.sunPos.z, MTXMODE_NEW);
@@ -1493,6 +1557,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         color = CLAMP_MIN(color, 0.0f);
 
         scale = -15.0f * color + 25.0f;
+        scale *= 0.08f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
         temp = -y / 80.0f;
@@ -1500,14 +1565,12 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         alpha = temp * 255.0f;
 
-        if (alpha > 0.0f) {
-            MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kankyo.c", 2406);
-            Gfx_SetupDL_51Opa(play->state.gfxCtx);
-            gDPPipeSync(POLY_OPA_DISP++);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
-            gDPSetEnvColor(POLY_OPA_DISP++, 80, 70, 20, alpha);
-            gSPDisplayList(POLY_OPA_DISP++, gMoonDL);
-        }
+        Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
+        Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_kankyo.c", 2406);
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_moon_64x64_TLUT));
+        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_moon_64x64));
+        gSPDisplayList(POLY_OPA_DISP++, square_textured_64x64_dl);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2429);

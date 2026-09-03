@@ -1,7 +1,9 @@
+#include "color.h"
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "sys_matrix.h"
 #include "skybox.h"
+#include "ultra64/gbi.h"
 
 Mtx* sSkyboxDrawMatrix;
 
@@ -47,7 +49,17 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
     // Enable texture filtering RDP pipeline stages for bilinear filtering
     gDPSetTextureConvert(POLY_OPA_DISP++, G_TC_FILT);
 
-    if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
+    if (skyboxCtx->drawType == SKYBOX_DRAW_COLOR_ONLY) {
+        Color_RGB8* c;
+        c = &skyboxCtx->color_only_top;
+        gDPSetEnvColor(POLY_OPA_DISP++, c->r, c->g, c->b, 255);
+        c = &skyboxCtx->color_only_bottom;
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, c->r, c->g, c->b, 255);
+        gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
+        gDPSetCombineLERP(POLY_OPA_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, 0, 0, 0, 1, 0, 0, 0, COMBINED, 0,
+                          0, 0, COMBINED);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[0]);
+    } else if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
         // 256x256 textures, per-face palettes
         // 2, 3 or 4 faces
 

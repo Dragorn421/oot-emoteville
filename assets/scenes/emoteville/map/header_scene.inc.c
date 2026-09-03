@@ -15,7 +15,7 @@ SceneCmd my_map_scene_scene[] = {
     SCENE_CMD_SPAWN_LIST(my_map_scene_SpawnList),
     SCENE_CMD_SPECIAL_FILES(NAVI_QUEST_HINTS_NONE, OBJECT_INVALID),
     SCENE_CMD_PLAYER_ENTRY_LIST(ARRAY_COUNT(my_map_scene_PlayerEntryList), my_map_scene_PlayerEntryList),
-    SCENE_CMD_SKYBOX_SETTINGS(SKYBOX_NORMAL_SKY, 0, LIGHT_MODE_TIME),
+    SCENE_CMD_SKYBOX_SETTINGS(SKYBOX_COLOR_ONLY, 0, LIGHT_MODE_TIME),
     SCENE_CMD_ENV_LIGHT_SETTINGS(ARRAY_COUNT(my_map_scene_EnvLightSettingsList), my_map_scene_EnvLightSettingsList),
     SCENE_CMD_END(),
 };

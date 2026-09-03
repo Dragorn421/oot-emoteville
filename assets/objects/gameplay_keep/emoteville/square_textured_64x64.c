@@ -1,5 +1,7 @@
 #include "square_textured_64x64.h"
 
+#include "ultra64/gbi.h"
+
 Vtx square_textured_64x64_vtx[] = {
     { { { -500, 0, 0 }, 0, { 0, 2048 }, { 0x0, 0x81, 0x0, 255 } } },
     { { { 500, 0, 0 }, 0, { 2048, 2048 }, { 0x0, 0x81, 0x0, 255 } } },
