@@ -12206,125 +12206,130 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
     // nop drawing Link
     POLY_OPA_DISP = gfx_opa_saved;
 
-    float age_scale = LINK_IS_ADULT ? 1 : 0.7f;
-    s16 yaw_towards_eye = Actor_WorldYawTowardPoint(&this->actor, &play->view.eye);
-    float yaw = BINANG_TO_RAD(Math_SlightBillboardY(this->actor.shape.rot.y, yaw_towards_eye, 0xC00, 0x100, 0x800));
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_HEAD]), MTXMODE_NEW);
-        Matrix_RotateY(yaw, MTXMODE_APPLY);
-        float s = 0.03f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_man_elf_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_man_elf_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
-    }
+    if (overrideLimbDraw != Player_OverrideLimbDrawGameplayFirstPerson &&
+        overrideLimbDraw != Player_OverrideLimbDrawGameplayCrawling) {
 
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_WAIST]), MTXMODE_NEW);
-        Matrix_RotateY(yaw, MTXMODE_APPLY);
-        float s = 0.03f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        Matrix_Translate(0, -750, 100, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_dress_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_dress_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
-    }
+        float age_scale = LINK_IS_ADULT ? 1 : 0.7f;
+        s16 yaw_towards_eye = Actor_WorldYawTowardPoint(&this->actor, &play->view.eye);
+        float yaw = BINANG_TO_RAD(Math_SlightBillboardY(this->actor.shape.rot.y, yaw_towards_eye, 0xC00, 0x100, 0x800));
 
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_HAND]), MTXMODE_NEW);
-        Matrix_RotateY(yaw, MTXMODE_APPLY);
-        float s = 0.012f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
-    }
-
-    if (this->leftHandType == PLAYER_MODELTYPE_LH_SWORD) {
-        Vec3f* sword_base = &this->bodyPartsPos[PLAYER_BODYPART_L_HAND];
-        Vec3f* sword_tip = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]);
-        /*
-        we want a transform s.t.
-        (0 1 0) -> sword_tip - sword_base
-        (0 0 1) -> view-facing
-        translation: sword_base
-         */
-        Matrix_Translate(XYZ(sword_base), MTXMODE_NEW);
-        Vec3f sword_dir;
-        Math_Vec3f_Diff(sword_tip, sword_base, &sword_dir);
-        Vec3f forwards_pre;
-        Math_Vec3f_Diff(&play->view.at, &play->view.eye, &forwards_pre);
-        Math_Vec3f_Scale(&forwards_pre, -1);
-        Vec3f left;
-        Math3D_Vec3f_Cross(&sword_dir, &forwards_pre, &left);
-        Vec3f forwards;
-        Math3D_Vec3f_Cross(&left, &sword_dir, &forwards);
-        float left_len = Math3D_Vec3fMagnitude(&left);
-        float sword_dir_len = Math3D_Vec3fMagnitude(&sword_dir);
-        float forwards_len = Math3D_Vec3fMagnitude(&forwards);
-        // lengths being 0 means the sword_dir is aligned to the view,
-        // so may as well not draw anything in that case
-        if (!IS_ZERO(left_len) && !IS_ZERO(sword_dir_len) && !IS_ZERO(forwards_len)) {
-            Math_Vec3f_Scale(&left, 1 / left_len);
-            Math_Vec3f_Scale(&sword_dir, 1 / sword_dir_len);
-            Math_Vec3f_Scale(&forwards, 1 / forwards_len);
-            MtxF mf = gIdentityMtxF;
-            mf.xx = left.x;
-            mf.yx = left.y;
-            mf.zx = left.z;
-            mf.xy = sword_dir.x;
-            mf.yy = sword_dir.y;
-            mf.zy = sword_dir.z;
-            mf.xz = forwards.x;
-            mf.yz = forwards.y;
-            mf.zz = forwards.z;
-            Matrix_Mult(&mf, MTXMODE_APPLY);
-
-            Matrix_Scale(0.02f * age_scale, 0.03f * age_scale, 1, MTXMODE_APPLY);
-
-            Matrix_Translate(0, -300, 0, MTXMODE_APPLY);
-
-            // make sword point up in model space
-            Matrix_RotateZ(-3 * M_PI / 4, MTXMODE_APPLY);
-            Matrix_Translate(-500, -1000, 0, MTXMODE_APPLY);
-
-            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_sword_64x64_TLUT));
-            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_sword_64x64));
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_HEAD]), MTXMODE_NEW);
+            Matrix_RotateY(yaw, MTXMODE_APPLY);
+            float s = 0.03f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_man_elf_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_man_elf_64x64));
             Gfx_DrawDListOpa(play, square_textured_64x64_dl);
         }
-    }
 
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_HAND]), MTXMODE_NEW);
-        Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
-        float s = 0.012f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
-    }
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_WAIST]), MTXMODE_NEW);
+            Matrix_RotateY(yaw, MTXMODE_APPLY);
+            float s = 0.03f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            Matrix_Translate(0, -750, 100, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_dress_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_dress_64x64));
+            Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        }
 
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_FOOT]), MTXMODE_NEW);
-        Matrix_RotateY(yaw, MTXMODE_APPLY);
-        float s = 0.013f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
-    }
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_HAND]), MTXMODE_NEW);
+            Matrix_RotateY(yaw, MTXMODE_APPLY);
+            float s = 0.012f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64));
+            Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        }
 
-    {
-        Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_FOOT]), MTXMODE_NEW);
-        Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
-        float s = 0.013f * age_scale;
-        Matrix_Scale(s, s, s, MTXMODE_APPLY);
-        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));
-        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64));
-        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        if (this->leftHandType == PLAYER_MODELTYPE_LH_SWORD) {
+            Vec3f* sword_base = &this->bodyPartsPos[PLAYER_BODYPART_L_HAND];
+            Vec3f* sword_tip = MELEE_WEAPON_INFO_TIP(&this->meleeWeaponInfo[0]);
+            /*
+            we want a transform s.t.
+            (0 1 0) -> sword_tip - sword_base
+            (0 0 1) -> view-facing
+            translation: sword_base
+             */
+            Matrix_Translate(XYZ(sword_base), MTXMODE_NEW);
+            Vec3f sword_dir;
+            Math_Vec3f_Diff(sword_tip, sword_base, &sword_dir);
+            Vec3f forwards_pre;
+            Math_Vec3f_Diff(&play->view.at, &play->view.eye, &forwards_pre);
+            Math_Vec3f_Scale(&forwards_pre, -1);
+            Vec3f left;
+            Math3D_Vec3f_Cross(&sword_dir, &forwards_pre, &left);
+            Vec3f forwards;
+            Math3D_Vec3f_Cross(&left, &sword_dir, &forwards);
+            float left_len = Math3D_Vec3fMagnitude(&left);
+            float sword_dir_len = Math3D_Vec3fMagnitude(&sword_dir);
+            float forwards_len = Math3D_Vec3fMagnitude(&forwards);
+            // lengths being 0 means the sword_dir is aligned to the view,
+            // so may as well not draw anything in that case
+            if (!IS_ZERO(left_len) && !IS_ZERO(sword_dir_len) && !IS_ZERO(forwards_len)) {
+                Math_Vec3f_Scale(&left, 1 / left_len);
+                Math_Vec3f_Scale(&sword_dir, 1 / sword_dir_len);
+                Math_Vec3f_Scale(&forwards, 1 / forwards_len);
+                MtxF mf = gIdentityMtxF;
+                mf.xx = left.x;
+                mf.yx = left.y;
+                mf.zx = left.z;
+                mf.xy = sword_dir.x;
+                mf.yy = sword_dir.y;
+                mf.zy = sword_dir.z;
+                mf.xz = forwards.x;
+                mf.yz = forwards.y;
+                mf.zz = forwards.z;
+                Matrix_Mult(&mf, MTXMODE_APPLY);
+
+                Matrix_Scale(0.02f * age_scale, 0.03f * age_scale, 1, MTXMODE_APPLY);
+
+                Matrix_Translate(0, -300, 0, MTXMODE_APPLY);
+
+                // make sword point up in model space
+                Matrix_RotateZ(-3 * M_PI / 4, MTXMODE_APPLY);
+                Matrix_Translate(-500, -1000, 0, MTXMODE_APPLY);
+
+                gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_sword_64x64_TLUT));
+                gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_sword_64x64));
+                Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+            }
+        }
+
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_HAND]), MTXMODE_NEW);
+            Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
+            float s = 0.012f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_hand_64x64));
+            Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        }
+
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_L_FOOT]), MTXMODE_NEW);
+            Matrix_RotateY(yaw, MTXMODE_APPLY);
+            float s = 0.013f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64));
+            Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        }
+
+        {
+            Matrix_Translate(XYZ(&this->bodyPartsPos[PLAYER_BODYPART_R_FOOT]), MTXMODE_NEW);
+            Matrix_RotateY(yaw + M_PI, MTXMODE_APPLY);
+            float s = 0.013f * age_scale;
+            Matrix_Scale(s, s, s, MTXMODE_APPLY);
+            gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64_TLUT));
+            gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_boot_64x64));
+            Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+        }
     }
 
     if ((overrideLimbDraw == Player_OverrideLimbDrawGameplayDefault) && (this->currentMask != PLAYER_MASK_NONE)) {
