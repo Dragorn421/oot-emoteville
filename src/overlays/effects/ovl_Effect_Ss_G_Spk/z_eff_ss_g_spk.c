@@ -10,6 +10,7 @@
 #include "gfx.h"
 #include "gfx_setupdl.h"
 #include "segmented_address.h"
+#include "sys_matrix.h"
 #include "z_lib.h"
 #include "effect.h"
 #include "play_state.h"
@@ -17,6 +18,8 @@
 
 #include "assets/objects/gameplay_keep/eff_spark_model.h"
 #include "assets/objects/gameplay_keep/eff_spark_textures.h"
+#include "assets/objects/gameplay_keep/emoteville/square_textured_64x64.h"
+#include "assets/objects/gameplay_keep/emoteville/tex_bomb.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -77,42 +80,22 @@ u32 EffectSsGSpk_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
 }
 
 void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
-    static void* sparkTextures[] = {
-        gEffSpark1Tex,
-        gEffSpark2Tex,
-        gEffSpark3Tex,
-        gEffSpark4Tex,
-    };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    MtxF mfTrans;
-    MtxF mfScale;
-    MtxF mfResult;
-    MtxF mfTransBillboard;
-    Mtx* mtx;
-    f32 scale;
-    s32 pad;
 
-    OPEN_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 208);
+    OPEN_DISPS_(gfxCtx);
 
-    scale = this->rScale * 0.0025f;
-    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
-    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
+    Matrix_Translate(XYZ(&this->pos), MTXMODE_NEW);
+    s16 yaw_towards_eye = Math_Vec3f_Yaw(&this->pos, &play->view.eye);
+    float yaw = BINANG_TO_RAD(yaw_towards_eye);
+    Matrix_RotateY(yaw, MTXMODE_APPLY);
+    float s = 0.00005f * this->rScale;
+    Matrix_Scale(s, s, s, MTXMODE_APPLY);
+    Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_fire_64x64_TLUT));
+    gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_fire_64x64));
+    Gfx_DrawDListOpa(play, square_textured_64x64_dl);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
-
-    if (mtx != NULL) {
-        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sparkTextures[this->rTexIndex]));
-        Gfx_SetupDL_60NoCDXlu(gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
-        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
-    }
-
-    if (1) {}
-    CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 255);
+    CLOSE_DISPS_(gfxCtx);
 }
 
 void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this) {

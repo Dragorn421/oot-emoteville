@@ -14,8 +14,11 @@
 #include "effect.h"
 #include "play_state.h"
 #include "skin_matrix.h"
+#include "z_math.h"
 
 #include "assets/objects/gameplay_keep/eff_bomb_explosion.h"
+#include "assets/objects/gameplay_keep/emoteville/square_textured_64x64.h"
+#include "assets/objects/gameplay_keep/emoteville/tex_bomb.h"
 
 #define rScale regs[0]
 #define rTexIndex regs[1]
@@ -108,66 +111,22 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
-    static void* textures[] = {
-        gEffBombExplosion1Tex, gEffBombExplosion2Tex, gEffBombExplosion3Tex, gEffBombExplosion4Tex,
-        gEffBombExplosion5Tex, gEffBombExplosion6Tex, gEffBombExplosion7Tex, gEffBombExplosion8Tex,
-    };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
-    MtxF mfTrans;
-    MtxF mfScale;
-    MtxF mfResult;
-    MtxF mfTransBillboard;
-    MtxF mtx2F;
-    Mtx* mtx2;
-    Mtx* mtx;
-    s32 pad[3];
-    f32 scale;
-    f32 depth;
-    f32 layer2Scale = 0.925f;
-    s32 i;
 
-    OPEN_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 386);
+    OPEN_DISPS_(gfxCtx);
 
-    depth = this->rDepth;
-    scale = this->rScale * 0.01f;
-    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    if (1) {}
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
-    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
+    Matrix_Translate(XYZ(&this->pos), MTXMODE_NEW);
+    s16 yaw_towards_eye = Math_Vec3f_Yaw(&this->pos, &play->view.eye);
+    float yaw = BINANG_TO_RAD(yaw_towards_eye);
+    Matrix_RotateY(yaw, MTXMODE_APPLY);
+    float s = 0.04f * 0.01f * this->rScale;
+    Matrix_Scale(s, s, s, MTXMODE_APPLY);
+    Matrix_Translate(0, -500, 0, MTXMODE_APPLY);
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_boom_64x64_TLUT));
+    gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_boom_64x64));
+    Gfx_DrawDListOpa(play, square_textured_64x64_dl);
 
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
-
-    if (mtx != NULL) {
-        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-        mtx2 = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
-
-        if (mtx2 != NULL) {
-            Gfx_SetupDL_60NoCDXlu(gfxCtx);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                            this->rPrimColorA);
-            gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIndex]));
-            gSPDisplayList(POLY_XLU_DISP++, gEffBombExplosion2DL);
-            gSPDisplayList(POLY_XLU_DISP++, gEffBombExplosion3DL);
-
-            Matrix_MtxToMtxF(mtx2, &mtx2F);
-            Matrix_Put(&mtx2F);
-
-            for (i = 1; i >= 0; i--) {
-                Matrix_Translate(0.0f, 0.0f, depth, MTXMODE_APPLY);
-                Matrix_RotateZ((this->life * 0.02f) + 180.0f, MTXMODE_APPLY);
-                Matrix_Scale(layer2Scale, layer2Scale, layer2Scale, MTXMODE_APPLY);
-                MATRIX_FINALIZE_AND_LOAD(POLY_XLU_DISP++, play->state.gfxCtx, "../z_eff_ss_bomb2.c", 448);
-                gSPDisplayList(POLY_XLU_DISP++, gEffBombExplosion3DL);
-                layer2Scale -= 0.15f;
-            }
-        }
-    }
-
-    if (1) {}
-    CLOSE_DISPS(gfxCtx, "../z_eff_ss_bomb2.c", 456);
+    CLOSE_DISPS_(gfxCtx);
 }
 
 void EffectSsBomb2_Update(PlayState* play, u32 index, EffectSs* this) {

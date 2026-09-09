@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bom.h"
+#include "math.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #include "array_count.h"
@@ -12,6 +13,7 @@
 #include "gfx_setupdl.h"
 #include "ichain.h"
 #include "rumble.h"
+#include "segmented_address.h"
 #include "sfx.h"
 #include "sys_matrix.h"
 #include "z_lib.h"
@@ -19,8 +21,8 @@
 #include "play_state.h"
 #include "player.h"
 
-#include "assets/objects/gameplay_keep/bomb_cap.h"
-#include "assets/objects/gameplay_keep/bomb_body.h"
+#include "assets/objects/gameplay_keep/emoteville/square_textured_64x64.h"
+#include "assets/objects/gameplay_keep/emoteville/tex_bomb.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_DRAW_CULLING_DISABLED)
 
@@ -376,18 +378,20 @@ void EnBom_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom.c", 913);
 
     if (thisx->params == BOMB_BODY) {
-        Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        Matrix_ReplaceRotation(&play->billboardMtxF);
-        func_8002EBCC(thisx, play, 0);
+        s16 yaw_towards_eye = Actor_WorldYawTowardPoint(&this->actor, &play->view.eye);
+        float yaw = BINANG_TO_RAD(yaw_towards_eye);
 
-        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 928);
-        gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
-        Matrix_RotateZYX(0x4000, 0, 0, MTXMODE_APPLY);
-        MATRIX_FINALIZE_AND_LOAD(POLY_OPA_DISP++, play->state.gfxCtx, "../z_en_bom.c", 934);
-        gDPPipeSync(POLY_OPA_DISP++);
-        gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(POLY_OPA_DISP++, gBombBodyDL);
+        Matrix_Translate(XYZ(&this->actor.world.pos), MTXMODE_NEW);
+        Matrix_RotateY(yaw, MTXMODE_APPLY);
+        float s = 0.018f * 100 * this->actor.scale.x;
+        Matrix_Scale(s, s, s, MTXMODE_APPLY);
+        Matrix_Translate(0, -1000 * 1.42421f / 8, 0, MTXMODE_APPLY);
+        Matrix_RotateZ(M_PI / 4, MTXMODE_APPLY);
+        Matrix_Translate(500, 0, 0, MTXMODE_APPLY);
+        gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(emoji_bomb_64x64_TLUT));
+        gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(emoji_bomb_64x64));
+        Gfx_DrawDListOpa(play, square_textured_64x64_dl);
+
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
