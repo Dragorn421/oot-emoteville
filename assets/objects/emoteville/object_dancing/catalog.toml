@@ -1,0 +1,7 @@
+[[export_skeleton]]
+armature = "she_dancer_skel"
+to = "assets/objects/emoteville/object_dancing/"
+[[export_animation]]
+armature = "she_dancer_skel"
+action = "she_dancer_idle_anim"
+to = "assets/objects/emoteville/object_dancing/"

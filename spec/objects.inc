@@ -3259,3 +3259,12 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/emoteville/object_emoji_rock/object_emoji_rock.o"
     number 6
 endseg
+
+beginseg
+    name "object_dancing"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_dancing/she_dancer_skel.o"
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_dancing/she_dancer_idle_anim.o"
+    number 6
+endseg

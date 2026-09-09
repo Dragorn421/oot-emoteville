@@ -1289,6 +1289,11 @@ assets/scenes/emoteville/insidehouse/glue/glue_scene.c assets/scenes/emoteville/
 	touch assets/scenes/emoteville/insidehouse/glue/glue_scene.c
 	touch assets/scenes/emoteville/insidehouse/glue/glue_room_0.c
 
+assets/objects/emoteville/object_dancing/she_dancer_skel.c \
+assets/objects/emoteville/object_dancing/she_dancer_idle_anim.c \
+&: assets_src/dancing.blend assets/objects/emoteville/object_dancing/catalog.toml
+	$(BLENDER) $< --command dragex oot assets/objects/emoteville/object_dancing/catalog.toml
+
 resources: $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
 $(O_FILES): | resources
 .PHONY: resources
