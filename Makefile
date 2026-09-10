@@ -1299,6 +1299,8 @@ assets/objects/emoteville/object_dragon/dragon_straighten_anim.c \
 &: assets_src/dragon.blend assets/objects/emoteville/object_dragon/catalog.toml
 	$(BLENDER) $< --command dragex oot assets/objects/emoteville/object_dragon/catalog.toml
 
+$(BUILD_DIR)/assets/%.o: OPTFLAGS += -g0
+
 resources: $(ASSET_FILES_OUT) $(TEXTURE_FILES_OUT)
 $(O_FILES): | resources
 .PHONY: resources
