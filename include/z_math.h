@@ -174,4 +174,6 @@ typedef VecSphGeo VecGeo;
 
 #define XYZ(v) ((v)->x), ((v)->y), ((v)->z)
 
+extern Vec3f gZeroVec;
+
 #endif

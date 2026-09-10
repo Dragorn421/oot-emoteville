@@ -1,0 +1,26 @@
+#ifndef DRAGON_SKEL_H
+#define DRAGON_SKEL_H
+#include "animation.h"
+typedef enum dragon_skelLimb {
+    DRAGON_SKEL_NONE,
+    DRAGON_SKEL_ROOT,
+    DRAGON_SKEL_BODY1,
+    DRAGON_SKEL_BODY2,
+    DRAGON_SKEL_BODY3,
+    DRAGON_SKEL_BODY4,
+    DRAGON_SKEL_HEAD,
+    DRAGON_SKEL_JAW,
+    DRAGON_SKEL_JAWLOWER,
+    DRAGON_SKEL_JAWUPPER,
+    DRAGON_SKEL_HANDSROOT,
+    DRAGON_SKEL_HANDS,
+    DRAGON_SKEL_TAIL1,
+    DRAGON_SKEL_TAIL2,
+    DRAGON_SKEL_TAIL3,
+    DRAGON_SKEL_TAIL4,
+    DRAGON_SKEL_TAIL5,
+    DRAGON_SKEL_TAIL6,
+    DRAGON_SKEL_MAX
+} dragon_skelLimb;
+extern FlexSkeletonHeader dragon_skel;
+#endif

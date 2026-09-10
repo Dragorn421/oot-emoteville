@@ -7,6 +7,8 @@
 #include "rand.h"
 #include "sfx.h"
 
+Vec3f gZeroVec = { 0.0f, 0.0f, 0.0f };
+
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
     u32 i;
 

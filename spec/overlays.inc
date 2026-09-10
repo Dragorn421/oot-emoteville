@@ -109,3 +109,17 @@ beginseg
     flags OVERLAY
     include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_dancing/dancing.o"
 endseg
+
+beginseg
+    name "ovl_ActorDragon"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_dragon/dragon.o"
+endseg
+
+beginseg
+    name "ovl_ActorDragonFire"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_dragon_fire/dragon_fire.o"
+endseg

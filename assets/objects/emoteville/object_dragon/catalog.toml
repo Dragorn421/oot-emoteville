@@ -1,0 +1,7 @@
+[[export_skeleton]]
+armature = "dragon_skel"
+to = "assets/objects/emoteville/object_dragon/"
+[[export_animation]]
+armature = "dragon_skel"
+action = "dragon_straighten_anim"
+to = "assets/objects/emoteville/object_dragon/"
