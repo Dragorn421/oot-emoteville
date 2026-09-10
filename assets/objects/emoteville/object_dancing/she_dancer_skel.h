@@ -1,0 +1,18 @@
+#ifndef SHE_DANCER_SKEL_H
+#define SHE_DANCER_SKEL_H
+#include "animation.h"
+typedef enum she_dancer_skelLimb {
+    SHE_DANCER_SKEL_NONE,
+    SHE_DANCER_SKEL_ROOT,
+    SHE_DANCER_SKEL_LEFTLEG,
+    SHE_DANCER_SKEL_RIGHTLEG,
+    SHE_DANCER_SKEL_TORSO,
+    SHE_DANCER_SKEL_LEFTSHOULDER,
+    SHE_DANCER_SKEL_LEFTARM,
+    SHE_DANCER_SKEL_LEFTFOREARM,
+    SHE_DANCER_SKEL_RIGHTARM,
+    SHE_DANCER_SKEL_RIGHTFOREARM,
+    SHE_DANCER_SKEL_MAX
+} she_dancer_skelLimb;
+extern FlexSkeletonHeader she_dancer_skel;
+#endif

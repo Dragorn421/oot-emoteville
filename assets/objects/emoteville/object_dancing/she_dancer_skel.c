@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "animation.h"
 #include "array_count.h"
+#include "she_dancer_skel.h"
 u64 she_dancer_skel_woman_dancing_64x64_pngTLUT[] = {
 #include "assets/objects/emoteville/object_dancing/she_dancer_skel_woman_dancing_64x64_png.tlut.rgba16.inc.c"
 };
@@ -498,19 +499,6 @@ Gfx she_dancer_skel_SheDancerMesh_limb_8_dl[] = {
     gsSPDisplayList(she_dancer_skel_SheDancerMesh_limb_8_she_dancer_skel_Material_mesh_dl),
     gsSPEndDisplayList(),
 };
-typedef enum she_dancer_skelLimb {
-    SHE_DANCER_SKEL_NONE,
-    SHE_DANCER_SKEL_ROOT,
-    SHE_DANCER_SKEL_LEFTLEG,
-    SHE_DANCER_SKEL_RIGHTLEG,
-    SHE_DANCER_SKEL_TORSO,
-    SHE_DANCER_SKEL_LEFTSHOULDER,
-    SHE_DANCER_SKEL_LEFTARM,
-    SHE_DANCER_SKEL_LEFTFOREARM,
-    SHE_DANCER_SKEL_RIGHTARM,
-    SHE_DANCER_SKEL_RIGHTFOREARM,
-    SHE_DANCER_SKEL_MAX
-} she_dancer_skelLimb;
 StandardLimb she_dancer_skel_root = {
     { 0, 0, 0 },
     SHE_DANCER_SKEL_LEFTLEG - 1,
