@@ -176,6 +176,9 @@ def list_files_to_format():
     for glue_f in glob.glob("assets/scenes/**/glue/*.c", recursive=True):
         if glue_f in files:
             files.remove(glue_f)
+    for f in glob.glob("assets/objects/emoteville/**/*", recursive=True):
+        if f in files:
+            files.remove(f)
 
     return files, extra_files
 
