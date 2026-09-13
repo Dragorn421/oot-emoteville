@@ -1,0 +1,3 @@
+[submodule "tools/elf-based-bps-maker"]
+	path = tools/elf-based-bps-maker
+	url = git@github.com:Dragorn421/elf-based-bps-maker.git

@@ -15,9 +15,15 @@ jobs:
     name: Build repo
     runs-on: ubuntu-latest
 
+    env:
+      OK_DECOMP_BUILD_REPO: Dragorn421/oot
+      OK_DECOMP_BUILD_COMMIT: 571e5d1e42681843c5574e74a0d794fe07aeeeeb
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          submodules: true
 
       - name: git config safe.directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -31,8 +37,42 @@ jobs:
       - name: Build
         run: make -j $(nproc) BLENDER='@:'
 
+      - name: Cache OK decomp build
+        id: cache-ok-decomp-build
+        uses: actions/cache@v5
+        with:
+          path: ok-decomp-build.tar.gz.gpg
+          key: ok-decomp-build-${{ env.OK_DECOMP_BUILD_COMMIT }}
+
+      - name: Build OK decomp
+        if: steps.cache-ok-decomp-build.outputs.cache-hit != 'true'
+        uses: ./.github/actions/build-ok-decomp
+        with:
+          path: ok-decomp-build
+          repo: ${{ env.OK_DECOMP_BUILD_REPO }}
+          commit: ${{ env.OK_DECOMP_BUILD_COMMIT }}
+          baserom: baseroms/gc-eu/baserom.z64
+          version: gc-eu
+
+      - name: Archive and encrypt OK decomp build
+        if: steps.cache-ok-decomp-build.outputs.cache-hit != 'true'
+        run: |
+          tar czf ok-decomp-build.tar.gz ok-decomp-build/build/gc-eu/
+          gpg --batch --passphrase ${{ secrets.ROMS_ENCRYPTED_PASSPHRASE_SHELLESCAPED }} -o ok-decomp-build.tar.gz.gpg --symmetric ok-decomp-build.tar.gz
+
+      - name: Decrypt and extract OK decomp build
+        if: steps.cache-ok-decomp-build.outputs.cache-hit == 'true'
+        run: |
+          gpg --batch --passphrase ${{ secrets.ROMS_ENCRYPTED_PASSPHRASE_SHELLESCAPED }} -o ok-decomp-build.tar.gz --decrypt ok-decomp-build.tar.gz.gpg
+          tar xzf ok-decomp-build.tar.gz
+
       - name: Create patch
-        run: flips --create baseroms/gc-eu/baserom.z64 build/gc-eu/oot-gc-eu.z64 patch.bps
+        run: tools/elf-based-bps-maker/bpsmaker.py ok-decomp-build/build/gc-eu/ build/gc-eu/ patch.bps
+
+      - name: Check patch
+        run: |
+          flips --apply patch.bps baseroms/gc-eu/baserom-decompressed.z64 patched.z64
+          diff -s build/gc-eu/oot-gc-eu.z64 patched.z64
 
       - name: Upload patch
         uses: actions/upload-artifact@v6

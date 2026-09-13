@@ -1,0 +1,33 @@
+inputs:
+  path:
+    required: true
+  repo:
+    required: true
+  commit:
+    required: true
+  baserom:
+    required: true
+  version:
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout OK repository
+      uses: actions/checkout@v6
+      with:
+        repository: ${{ inputs.repo }}
+        ref: ${{ inputs.commit }}
+        path: ${{ inputs.path }}
+
+    - name: Copy baserom
+      shell: sh
+      run: cp ${{ inputs.baserom }} ${{ inputs.path }}/baseroms/${{ inputs.version }}/baserom.z64
+
+    - name: Setup
+      shell: sh
+      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }} setup
+
+    - name: Build
+      shell: sh
+      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }}
