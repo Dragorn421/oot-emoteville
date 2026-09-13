@@ -26,8 +26,8 @@ runs:
 
     - name: Setup
       shell: sh
-      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }} setup
+      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }} -j $(nproc) setup
 
     - name: Build
       shell: sh
-      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }}
+      run: make -C ${{ inputs.path }} VERSION=${{ inputs.version }} -j $(nproc)
