@@ -66,8 +66,11 @@ jobs:
           gpg --batch --passphrase ${{ secrets.ROMS_ENCRYPTED_PASSPHRASE_SHELLESCAPED }} -o ok-decomp-build.tar.gz --decrypt ok-decomp-build.tar.gz.gpg
           tar xzf ok-decomp-build.tar.gz
 
+      - name: Install elf-based-bps-maker dependencies
+        run: .venv/bin/python3 -m pip install -r tools/elf-based-bps-maker/requirements.txt
+
       - name: Create patch
-        run: tools/elf-based-bps-maker/bpsmaker.py ok-decomp-build/build/gc-eu/ build/gc-eu/ patch.bps
+        run: .venv/bin/python3 tools/elf-based-bps-maker/bpsmaker.py ok-decomp-build/build/gc-eu/ build/gc-eu/ patch.bps
 
       - name: Check patch
         run: |
