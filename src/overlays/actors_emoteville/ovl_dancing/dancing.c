@@ -1,6 +1,7 @@
 #include "dancing.h"
 
 #include "actor.h"
+#include "actor_profile.h"
 #include "animation.h"
 #include "collision_check.h"
 #include "play_state.h"
@@ -11,7 +12,7 @@
 
 #include "assets/objects/emoteville/object_dancing/object_dancing.h"
 
-#define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void ActorDancing_Init(Actor* thisx, PlayState* play);
 void ActorDancing_Destroy(Actor* thisx, PlayState* play);
@@ -20,7 +21,7 @@ void ActorDancing_Draw(Actor* thisx, PlayState* play);
 
 ActorProfile ActorDancing_Profile = {
     /**/ ACTOR_DANCING,
-    /**/ ACTORCAT_PROP,
+    /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
     /**/ OBJECT_DANCING,
     /**/ sizeof(ActorDancing),
@@ -161,6 +162,17 @@ void ActorDancing_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 }
 
+s32 ActorDancing_OverrideLimbDraw(struct PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                  void* thisx) {
+    ActorDancing* this = thisx;
+
+    if (limbIndex == SHE_DANCER_SKEL_TORSO) {
+        Matrix_MultVec3f(&(Vec3f){ 0, 660, 0 }, &this->actor.focus.pos);
+    }
+
+    return false;
+}
+
 void ActorDancing_Draw(Actor* thisx, PlayState* play) {
     ActorDancing* this = (ActorDancing*)thisx;
 
@@ -168,6 +180,6 @@ void ActorDancing_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&(Vec3f){ 900, 930, 0 }, &left_foot_world_pos);
     Collider_SetCylinderPosition(&this->foot_collider, &(Vec3s){ XYZ(&left_foot_world_pos) });
 
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
-                          NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          ActorDancing_OverrideLimbDraw, NULL, this);
 }

@@ -26,16 +26,7 @@ extern RomFile my_map_scene_RoomList[0
 
 // Spawns
 
-#define DEF_SPAWN(spawnEnumName, roomEnumName, pos, rotY, params)
-#include "../table_spawns.h"
-#undef DEF_SPAWN
-
-enum {
-#define DEF_SPAWN(spawnEnumName, roomEnumName, pos, rotY, params) spawnEnumName,
-#include "../table_spawns.h"
-#undef DEF_SPAWN
-  MY_MAP_SCENE_SPAWN_MAX
-};
+#include "spawns.h"
 
 extern Spawn my_map_scene_SpawnList[MY_MAP_SCENE_SPAWN_MAX];
 extern ActorEntry my_map_scene_PlayerEntryList[MY_MAP_SCENE_SPAWN_MAX];

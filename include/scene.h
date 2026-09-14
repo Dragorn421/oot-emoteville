@@ -302,6 +302,10 @@ typedef struct EntranceInfo {
 } EntranceInfo; // size = 0x4
 
 // Entrance Index Enum
+#define DEFINE_ENTRANCE(_0, _1, _2, _3, _4, _5, _6)
+#include "tables/entrance_table.h"
+#undef DEFINE_ENTRANCE
+
 #define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
 
 typedef enum EntranceIndex {

@@ -5,10 +5,10 @@
 #include "gfx.h"
 #include "play_state.h"
 #include "segmented_address.h"
+#include "z_lib.h"
 
 #include "assets/objects/gameplay_keep/emoteville/square_textured_64x64.h"
 #include "assets/objects/gameplay_keep/emoteville/tex_bomb.h"
-#include "z_lib.h"
 
 #define FLAGS ACTOR_FLAG_UPDATE_CULLING_DISABLED
 

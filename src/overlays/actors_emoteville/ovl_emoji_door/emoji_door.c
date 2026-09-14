@@ -70,8 +70,16 @@ void ActorEmojiDoor_Update(Actor* thisx, PlayState* play) {
                     play->nextEntranceIndex = ENTR_INSIDE_HOUSE_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     break;
-                case EMOJI_DOOR_TO_MY_MAP:
-                    play->nextEntranceIndex = ENTR_MY_MAP_SCENE_0;
+                case EMOJI_DOOR_TO_MY_MAP_FROM_INSIDEHOUSE:
+                    play->nextEntranceIndex = ENTR_MY_MAP_SCENE_FROM_INSIDEHOUSE;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    break;
+                case EMOJI_DOOR_TO_NIGHTCLUB:
+                    play->nextEntranceIndex = ENTR_NIGHTCLUB_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    break;
+                case EMOJI_DOOR_TO_MY_MAP_FROM_NIGHTCLUB:
+                    play->nextEntranceIndex = ENTR_MY_MAP_SCENE_FROM_NIGHTCLUB;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     break;
             }

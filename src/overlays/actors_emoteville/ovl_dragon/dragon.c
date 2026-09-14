@@ -1,6 +1,7 @@
 #include "dragon.h"
 
 #include "actor.h"
+#include "actor_profile.h"
 #include "animation.h"
 #include "assets/objects/emoteville/object_dragon/dragon_skel.h"
 #include "overlays/actors_emoteville/ovl_dragon_fire/dragon_fire.h"
@@ -14,7 +15,7 @@
 
 #include "assets/objects/emoteville/object_dragon/object_dragon.h"
 
-#define FLAGS 0
+#define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_ATTENTION_ENABLED | ACTOR_FLAG_HOSTILE)
 
 void ActorDragon_Init(Actor* thisx, PlayState* play);
 void ActorDragon_Destroy(Actor* thisx, PlayState* play);
@@ -23,7 +24,7 @@ void ActorDragon_Draw(Actor* thisx, PlayState* play);
 
 ActorProfile ActorDragon_Profile = {
     /**/ ACTOR_DRAGON,
-    /**/ ACTORCAT_PROP,
+    /**/ ACTORCAT_ENEMY,
     /**/ FLAGS,
     /**/ OBJECT_DRAGON,
     /**/ sizeof(ActorDragon),
@@ -95,6 +96,9 @@ s32 ActorDragon_OverrideLimbDraw(struct PlayState* play, s32 limbIndex, Gfx** dL
                                  void* thisx) {
     ActorDragon* this = thisx;
 
+    if (limbIndex == DRAGON_SKEL_JAW) {
+        Matrix_MultVec3f(&gZeroVec, &this->actor.focus.pos);
+    }
     if (limbIndex == DRAGON_SKEL_JAWUPPER) {
         rot->x = DEG_TO_BINANG(-30 * this->mouth_open_fac);
         Matrix_MultVec3f(&gZeroVec, &this->mouth_pos);

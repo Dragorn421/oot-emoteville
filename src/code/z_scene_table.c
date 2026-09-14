@@ -96,6 +96,10 @@ void Scene_DrawConfigGanonsTowerCollapseInterior(PlayState* play);
 void Scene_DrawConfigInsideGanonsCastleCollapse(PlayState* play);
 
 // Entrance Table definition
+#define DEFINE_ENTRANCE(_0, _1, _2, _3, _4, _5, _6)
+#include "tables/entrance_table.h"
+#undef DEFINE_ENTRANCE
+
 #define DEFINE_ENTRANCE(_0, sceneId, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
     { sceneId, spawn,                                                                                    \
       (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                           \

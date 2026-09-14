@@ -71,16 +71,15 @@ Vtx she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_vtx[] = {
     {{ { -878, -302, 0 }, 0, { 0, 1343 }, { 0x0, 0x0, 0x0, 255 } }},
     {{ { -878, -990, 0 }, 0, { 0, 2048 }, { 0x0, 0x0, 0x0, 255 } }},
     {{ { 177, -990, 0 }, 0, { 1081, 2048 }, { 0x0, 0x0, 0x0, 255 } }},
-    {{ { 177, -990, 0 }, 0, { 1081, 2048 }, { 0x0, 0x0, 0x0, 255 } }},
     {{ { 1121, -56, 0 }, 0, { 2048, 1092 }, { 0x0, 0x0, 0x0, 255 } }},
     {{ { 1121, 273, 0 }, 0, { 2048, 753 }, { 0x0, 0x0, 0x0, 255 } }},
 };
 Gfx she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_dl[] = {
     gsSPMatrix(0x0D000080, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW),
-    gsSPVertex(&she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_vtx[0], 4, 0),
+    gsSPVertex(&she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_vtx[0], 3, 0),
     gsSPMatrix(0x0D000040, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW),
-    gsSPVertex(&she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_vtx[4], 2, 4),
-    gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
+    gsSPVertex(&she_dancer_skel_SheDancerMesh_limb_2_she_dancer_skel_Material_mesh_vtx[3], 2, 3),
+    gsSP2Triangles(0, 1, 2, 0, 2, 3, 4, 0),
     gsSPEndDisplayList(),
 };
 Gfx she_dancer_skel_SheDancerMesh_limb_2_dl[] = {
