@@ -3277,3 +3277,11 @@ beginseg
     include "$(BUILD_DIR)/assets/objects/emoteville/object_dragon/dragon_straighten_anim.o"
     number 6
 endseg
+
+beginseg
+    name "object_nightclub"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/emoteville/object_nightclub/object_nightclub.o"
+    number 6
+endseg

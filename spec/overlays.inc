@@ -123,3 +123,10 @@ beginseg
     flags OVERLAY
     include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_dragon_fire/dragon_fire.o"
 endseg
+
+beginseg
+    name "ovl_ActorNightclubCF"
+    compress
+    flags OVERLAY
+    include "$(BUILD_DIR)/src/overlays/actors_emoteville/ovl_nightclub_ceiling_fixtures/nightclub_ceiling_fixtures.o"
+endseg
